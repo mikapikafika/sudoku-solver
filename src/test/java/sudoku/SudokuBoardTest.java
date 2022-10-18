@@ -98,7 +98,7 @@ class SudokuBoardTest {
             for (int j = 0; j <= 6; j += 3) {
                 for (int k = i; k < i + 3; k++) {
                     for (int l = j; l < j + 3; l++) {
-                        setGrid.add(sudokuBoardTest.getCell(k, l));
+                        setGrid.add(sudokuBoardTest.get(k, l));
                     }
                 }
                 assertEquals(9,setGrid.size());
