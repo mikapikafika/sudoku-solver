@@ -1,38 +1,35 @@
 package sudoku;
 
 public class SudokuBoard {
-
-    // A size variable that allows the user to specify the size of our sudoku board
-    private final int size = 9;
+    
     private final int[][] board;
-
     private final SudokuSolver solver;
 
 
     public SudokuBoard(SudokuSolver solver) {
-        this.board = new int[size][size];
+        this.board = new int[9][9];
         this.solver = solver;
     }
 
 
     // Getters:
     public int[][] getBoard() {
-        int[][] copiedBoard = new int[size][size];
-        for (int i = 0; i < size; i++) {
-            System.arraycopy(board[i], 0, copiedBoard[i], 0, size);
+        int[][] copiedBoard = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            System.arraycopy(board[i], 0, copiedBoard[i], 0, 9);
         }
         return copiedBoard;
     }
 
     public int[] getRow(int row) {
-        int[] copiedRow = new int[size];
-        System.arraycopy(board[row], 0, copiedRow, 0, size);
+        int[] copiedRow = new int[9];
+        System.arraycopy(board[row], 0, copiedRow, 0, 9);
         return copiedRow;
     }
 
     public int[] getColumn(int col) {
-        int[] copiedColumn = new int[size];
-        for (int i = 0; i < size; i++) {
+        int[] copiedColumn = new int[9];
+        for (int i = 0; i < 9; i++) {
             copiedColumn[i] = board[i][col];
         }
         return copiedColumn;
@@ -60,16 +57,21 @@ public class SudokuBoard {
     public void solveGame() {
         solver.solve(this);
     }
-
-    public void printBoard() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                System.out.print(board[i][j]);
-                System.out.print("\t");
+    
+    @Override
+    public String toString() {
+        StringBuilder stringBoard = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                stringBoard.append(board[i][j]);
+                stringBoard.append("\t");
             }
-            System.out.println();
+            stringBoard.append("\n");
         }
+        return stringBoard.toString();
     }
+
+
 
 
 }

@@ -12,8 +12,7 @@ public class Main {
 
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
         sudokuBoard.solveGame();
-        sudokuBoard.printBoard();
-
+        System.out.println(sudokuBoard);
     }
 }
 
