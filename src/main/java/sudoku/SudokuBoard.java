@@ -29,9 +29,7 @@ public class SudokuBoard {
 
     public int[] getColumn(int col) {
         int[] copiedColumn = new int[9];
-        for (int i = 0; i < 9; i++) {
-            copiedColumn[i] = board[i][col];
-        }
+        System.arraycopy(board[col],0,copiedColumn,0,9);
         return copiedColumn;
     }
 
@@ -52,12 +50,11 @@ public class SudokuBoard {
 
     // Methods:
 
-//sprawdzać czy układ liczb na planszy jest prawidłowy
-
     public void solveGame() {
         solver.solve(this);
     }
-    
+
+    /*
     @Override
     public String toString() {
         StringBuilder stringBoard = new StringBuilder();
@@ -71,7 +68,5 @@ public class SudokuBoard {
         return stringBoard.toString();
     }
 
-
-
-
+     */
 }

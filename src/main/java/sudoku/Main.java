@@ -8,11 +8,11 @@ package sudoku;
 
 public class Main {
     public static void main(String[] args) {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
 
+        SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
         sudokuBoard.solveGame();
-        System.out.println(sudokuBoard);
+        //System.out.println(sudokuBoard);
     }
 }
 

@@ -12,19 +12,18 @@ class SudokuBoardTest {
     public SudokuBoardTest() {
     }
 
+    
     // Tests if two sudoku boards are different.
     @Test
     void differentBoardsTest() {
-        SudokuBoard sudokuBoardTest1 = new SudokuBoard();
-        sudokuBoardTest1.fillBoard();
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoardTest1 = new SudokuBoard(solver);
+        SudokuBoard sudokuBoardTest2 = new SudokuBoard(solver);
 
-        assertTrue(sudokuBoardTest1.checkBoard(sudokuBoardTest1.getBoard()));
+        sudokuBoardTest1.solveGame();
+        sudokuBoardTest2.solveGame();
 
-        int [][]savedArray = sudokuBoardTest1.getBoard();
-        sudokuBoardTest1.fillBoard();
-
-        assertTrue(sudokuBoardTest1.checkBoard(sudokuBoardTest1.getBoard()));
-        assertFalse(Arrays.deepEquals(sudokuBoardTest1.getBoard(), savedArray));
+        assertFalse(Arrays.deepEquals(sudokuBoardTest1.getBoard(), sudokuBoardTest2.getBoard()));
     }
 
     // Tests to see if the sudoku board solution is valid:
@@ -32,14 +31,14 @@ class SudokuBoardTest {
     // Tests if the numbers are in range.
     @Test
     void sudokuRulesTestRange() {
-        SudokuBoard sudokuBoardTest = new SudokuBoard();
-        sudokuBoardTest.fillBoard();
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
-        assertTrue(sudokuBoardTest.checkBoard(sudokuBoardTest.getBoard()));
+        sudokuBoard.solveGame();
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                assertFalse(sudokuBoardTest.getBoard()[i][j] <= 0 && sudokuBoardTest.getBoard()[i][j] > 9);
+                assertFalse(sudokuBoard.getBoard()[i][j] <= 0 && sudokuBoard.getBoard()[i][j] > 9);
             }
         }
     }
@@ -47,16 +46,19 @@ class SudokuBoardTest {
     // Tests if a value is repeated in a row
     @Test
     void sudokuRulesTestRow() {
-        SudokuBoard sudokuBoardTest = new SudokuBoard();
-        sudokuBoardTest.fillBoard();
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
-        assertTrue(sudokuBoardTest.checkBoard(sudokuBoardTest.getBoard()));
+        sudokuBoard.solveGame();
 
         HashSet<Integer> setRow = new HashSet<>();
 
         for (int i = 0; i < 9; i++) {
+            int [] testRow = sudokuBoard.getRow(i);
            for (int j = 0; j < 9; j++) {
-               setRow.add(sudokuBoardTest.getRow(i)[j]);
+               setRow.add(sudokuBoard.getRow(i)[j]);
+               assertEquals(9,sudokuBoard.getRow(i).length);
+               assertEquals(sudokuBoard.get(i,j),testRow[j]);
            }
         }
 
@@ -67,16 +69,18 @@ class SudokuBoardTest {
     // Tests if a value is repeated in a column
     @Test
     void sudokuRulesTestColumn() {
-        SudokuBoard sudokuBoardTest = new SudokuBoard();
-        sudokuBoardTest.fillBoard();
-
-        assertTrue(sudokuBoardTest.checkBoard(sudokuBoardTest.getBoard()));
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+        sudokuBoard.solveGame();
 
         HashSet<Integer> setColumn = new HashSet<>();
 
         for (int i = 0; i < 9; i++) {
+            int [] testColumn = sudokuBoard.getColumn(i);
             for (int j = 0; j < 9; j++) {
-                setColumn.add(sudokuBoardTest.getColumn(i)[j]);
+                setColumn.add(sudokuBoard.getColumn(i)[j]);
+                assertEquals(9,sudokuBoard.getColumn(i).length);
+                assertEquals(sudokuBoard.get(i,j),testColumn[j]);
             }
         }
 
@@ -87,10 +91,10 @@ class SudokuBoardTest {
     // Tests if a value is repeated in a 3x3 grid
     @Test
     void sudokuRulesTestGrid() {
-        SudokuBoard sudokuBoardTest = new SudokuBoard();
-        sudokuBoardTest.fillBoard();
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
-        assertTrue(sudokuBoardTest.checkBoard(sudokuBoardTest.getBoard()));
+        sudokuBoard.solveGame();
 
         HashSet<Integer> setGrid = new HashSet<>();
 
@@ -98,7 +102,7 @@ class SudokuBoardTest {
             for (int j = 0; j <= 6; j += 3) {
                 for (int k = i; k < i + 3; k++) {
                     for (int l = j; l < j + 3; l++) {
-                        setGrid.add(sudokuBoardTest.get(k, l));
+                        setGrid.add(sudokuBoard.get(k, l));
                     }
                 }
                 assertEquals(9,setGrid.size());
@@ -107,5 +111,25 @@ class SudokuBoardTest {
         }
     }
 
+    @Test
+    void sudokuRulesTestGetCell() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        assertEquals(sudokuBoard.getBoard()[1][1], sudokuBoard.get(1,1));
+
+
+    }
+    @Test
+    void sudokuRulesTestToString() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+    }
 
 }
+
