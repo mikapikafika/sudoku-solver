@@ -44,7 +44,7 @@ class SudokuBoardTest {
 
     // Tests if a value is repeated in a row
     @Test
-    void sudokuRulesTestRow() {
+    void sudokuRulesTestGetRow() {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
@@ -66,7 +66,7 @@ class SudokuBoardTest {
 
     // Tests if a value is repeated in a column
     @Test
-    void sudokuRulesTestColumn() {
+    void sudokuRulesTestGetColumn() {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
         sudokuBoard.solveGame();
@@ -167,6 +167,55 @@ class SudokuBoardTest {
             expectedToStringSudoku.append("\n");
         }
         assertEquals(expectedToStringSudoku.toString(), testingToStringSudoku);
+    }
+
+    @Test
+    void sudokuRulesTestCheckIsBoardCorrect() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        assertTrue(sudokuBoard.checkIsBoardCorrect());
+    }
+
+    @Test
+    void sudokuRulesTestCheckIsBoardInCorrectDueToRepetitionInRow() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+        sudokuBoard.set(0,0,1);
+        sudokuBoard.set(0,3,1);
+        sudokuBoard.set(0,6,1);
+        assertFalse(sudokuBoard.checkIsBoardCorrect());
+
+    }
+
+    @Test
+    void sudokuRulesTestCheckIsBoardInCorrectDueToRepetitionInColumn() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        sudokuBoard.set(0,0,1);
+        sudokuBoard.set(3,0,1);
+        sudokuBoard.set(6,0,1);
+        assertFalse(sudokuBoard.checkIsBoardCorrect());
+
+    }
+    @Test
+    void sudokuRulesTestCheckIsBoardInCorrectDueToRepetitionInSquare() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        sudokuBoard.set(0,0,1);
+        sudokuBoard.set(1,1,1);
+        sudokuBoard.set(2,2,1);
+        assertFalse(sudokuBoard.checkIsBoardCorrect());
     }
 
 }

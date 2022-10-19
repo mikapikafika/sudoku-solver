@@ -1,6 +1,8 @@
 package sudoku;
 
 
+import java.util.HashSet;
+
 public class SudokuBoard {
     
     private final int[][] board;
@@ -51,6 +53,55 @@ public class SudokuBoard {
     public void solveGame() {
         solver.solve(this);
     }
+
+    public boolean checkIsBoardCorrect() {
+
+        HashSet<Integer> setSquare = new HashSet<>();
+
+        // Checking if there is more than one repetition of the number in a square
+        for (int i = 0; i <= 6; i += 3) {
+            for (int j = 0; j <= 6; j += 3) {
+                for (int k = i; k < i + 3; k++) {
+                    for (int l = j; l < j + 3; l++) {
+                        setSquare.add(this.get(k, l));
+                    }
+                }
+                if (setSquare.size() != 9) {
+                    return false;
+                }
+                setSquare.clear();
+            }
+        }
+
+        HashSet<Integer> setRow = new HashSet<>();
+
+        // Checking if there is more than one repetition of the number in a row
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                setRow.add(this.get(i,j));
+            }
+            if (setRow.size() != 9) {
+                return false;
+            }
+            setRow.clear();
+        }
+
+        HashSet<Integer> setColumn = new HashSet<>();
+
+        // Checking if there is more than one repetition of the number in a column
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                setColumn.add(this.get(j, i));
+            }
+            if (setColumn.size() != 9) {
+                return false;
+            }
+            setColumn.clear();
+        }
+
+        return true;
+    }
+
 
     @Override
     public String toString() {
