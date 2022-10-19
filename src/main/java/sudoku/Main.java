@@ -1,7 +1,7 @@
 package sudoku;
 
 /**
- * <h2>Zadanie 2 - Algorytmy.</h2>
+ * <h2>Zadanie 3 - Interfejsy.</h2>
  * @author Michalina Wysocka
  * @author Szymon Wydmuch
  */
@@ -9,9 +9,10 @@ package sudoku;
 public class Main {
     public static void main(String[] args) {
 
-        SudokuBoard sudokuBoard = new SudokuBoard();
-        sudokuBoard.fillBoard();
-
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+        sudokuBoard.solveGame();
+        System.out.println(sudokuBoard);
     }
 }
 

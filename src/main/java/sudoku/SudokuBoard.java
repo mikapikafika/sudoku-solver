@@ -1,183 +1,119 @@
 package sudoku;
 
+
+import java.util.HashSet;
+
 public class SudokuBoard {
-
-    // A size variable that allows the user to specify the size of our sudoku board
-    private final int size;
+    
     private final int[][] board;
+    private final SudokuSolver solver;
 
-    public SudokuBoard() {
-        size = 9;
-        board = new int[size][size];
+
+    public SudokuBoard(SudokuSolver solver) {
+        this.board = new int[9][9];
+        this.solver = solver;
     }
 
 
     // Getters:
     public int[][] getBoard() {
-        int[][] copiedBoard = new int[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                copiedBoard[i][j] = board[i][j];
-            }
+        int[][] copiedBoard = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            System.arraycopy(board[i], 0, copiedBoard[i], 0, 9);
         }
         return copiedBoard;
     }
 
     public int[] getRow(int row) {
-        int[] copiedRow = new int[size];
-        for (int i = 0; i < size; i++) {
-                copiedRow[i] = board[row][i];
-        }
+        int[] copiedRow = new int[9];
+        System.arraycopy(board[row], 0, copiedRow, 0, 9);
         return copiedRow;
     }
 
     public int[] getColumn(int col) {
-        int[] copiedColumn = new int[size];
-        for (int i = 0; i < size; i++) {
-            copiedColumn[i] = board[i][col];
-        }
+        int[] copiedColumn = new int[9];
+        System.arraycopy(board[col],0,copiedColumn,0,9);
         return copiedColumn;
     }
 
-    public int getCell(int x, int y) {
-        if (x > 8 || x < 0 || y > 8 || y < 0) {
-            return -1;
-        }
+    public int get(int x, int y) {
         return board[x][y];
     }
 
+    public boolean set(int x, int y, int value) {
+        if (x > 8 || x < 0 || y > 8 || y < 0) {
+            return false;
+        }
+        board[x][y] = value;
+        return true;
+    }
 
     // Methods:
 
-    /**
-     * Checks if the board is already solved (looks for zeroes).
-     * @param board sudoku board
-     * @return true if solved
-     */
-    boolean checkBoard(int[][] board) {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (board[i][j] == 0) {
+    public void solveGame() {
+        solver.solve(this);
+    }
+
+    public boolean checkIsBoardCorrect() {
+
+        HashSet<Integer> setSquare = new HashSet<>();
+
+        // Checking if there is more than one repetition of the number in a square
+        for (int i = 0; i <= 6; i += 3) {
+            for (int j = 0; j <= 6; j += 3) {
+                for (int k = i; k < i + 3; k++) {
+                    for (int l = j; l < j + 3; l++) {
+                        setSquare.add(this.get(k, l));
+                    }
+                }
+                if (setSquare.size() != 9) {
                     return false;
                 }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Fills the board according to the rules of sudoku.
-     */
-    public void fillBoard() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                board[i][j] = 0;
-            }
-        }
-        fillSquares();
-        fillEmptyCells();
-    }
-
-    /**
-     * Fills three 3x3 grids diagonally (from upper left to lower right) with random numbers.
-     * Creates a "base" to solve the rest of the board.
-     */
-    void fillSquares() {
-        int randomNumber;
-        for (int z = 0; z < size; z += (int)(Math.sqrt(size))) {
-            for (int i = 0; i < Math.sqrt(size); i++) {
-                for (int j = 0; j < Math.sqrt(size); j++) {
-                    int row = i + z;
-                    int col = j + z;
-                    do {
-                        randomNumber = (int)(Math.random() * size + 1);
-                    } while (!checkAssignment(board, randomNumber, row, col));
-                    board[row][col] = randomNumber;
-                }
-            }
-        }
-    }
-
-    /**
-     * Fills the remaining empty cells recursively, one by one.
-     * Uses backtracking if a wrong number is assigned to a cell.
-     * @return false if no empty cells are found
-     */
-    boolean fillEmptyCells() {
-        int emptyRow = 0;
-        int emptyCol = 0;
-        if (checkBoard(board)) {
-            return true;
-        }
-
-        // Finds an empty cell
-        boolean found = false;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (board[i][j] == 0) {
-                    emptyRow = i;
-                    emptyCol = j;
-                    found = true;
-                    break;
-                }
-            }
-            if (found) {
-                break;
+                setSquare.clear();
             }
         }
 
-        // Tries assigning a number to a cell.
-        // If nothing fits, zeroes the cell and goes back to the previous one.
-        for (int i = 1; i <= size; i++) {
-            if (checkAssignment(board, i, emptyRow, emptyCol)) {
-                board[emptyRow][emptyCol] = i;
-                if (fillEmptyCells()) {
-                    return true;
-                }
-                board[emptyRow][emptyCol] = 0;
+        HashSet<Integer> setRow = new HashSet<>();
+
+        // Checking if there is more than one repetition of the number in a row
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                setRow.add(this.get(i,j));
             }
-        }
-
-        return false;
-    }
-
-    /**
-     * Checks if it's OK to assign a number to a cell.
-     * @param board sudoku board
-     * @param num number to assign
-     * @param row row of the board
-     * @param col column of the board
-     * @return true if the assignment is possible
-     */
-    boolean checkAssignment(int[][] board, int num, int row, int col) {
-        // Checks in a...
-        // ... row
-        for (int i = 0; i < size; i++) {
-            if (board[row][i] == num) {
+            if (setRow.size() != 9) {
                 return false;
             }
+            setRow.clear();
         }
 
-        // ... column
-        for (int i = 0; i < size; i++) {
-            if (board[i][col] == num) {
+        HashSet<Integer> setColumn = new HashSet<>();
+
+        // Checking if there is more than one repetition of the number in a column
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                setColumn.add(this.get(j, i));
+            }
+            if (setColumn.size() != 9) {
                 return false;
             }
-        }
-
-        // ... 3x3 grid
-        int sqrt = (int)(Math.sqrt(size));
-        int rowStart = row - row % sqrt;
-        int colStart = col - col % sqrt;
-
-        for (int i = 0; i < sqrt; i++) {
-            for (int j = 0; j < sqrt; j++) {
-                if (board[i + rowStart][j + colStart] == num) {
-                    return false;
-                }
-            }
+            setColumn.clear();
         }
 
         return true;
     }
+
+
+    @Override
+    public String toString() {
+        StringBuilder stringBoard = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                stringBoard.append(board[i][j]);
+                stringBoard.append("\t");
+            }
+            stringBoard.append("\n");
+        }
+        return stringBoard.toString();
+    }
+
 }
