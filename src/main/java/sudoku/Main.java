@@ -12,7 +12,7 @@ public class Main {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
         sudokuBoard.solveGame();
-        //System.out.println(sudokuBoard);
+        System.out.println(sudokuBoard);
     }
 }
 

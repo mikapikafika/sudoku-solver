@@ -1,5 +1,6 @@
 package sudoku;
 
+
 public class SudokuBoard {
     
     private final int[][] board;
@@ -34,19 +35,16 @@ public class SudokuBoard {
     }
 
     public int get(int x, int y) {
-        if (x > 8 || x < 0 || y > 8 || y < 0) {
-            return -1;
-        }
         return board[x][y];
     }
 
-    public void set(int x, int y, int value) {
+    public boolean set(int x, int y, int value) {
         if (x > 8 || x < 0 || y > 8 || y < 0) {
-            return;
+            return false;
         }
         board[x][y] = value;
+        return true;
     }
-
 
     // Methods:
 
@@ -54,7 +52,6 @@ public class SudokuBoard {
         solver.solve(this);
     }
 
-    /*
     @Override
     public String toString() {
         StringBuilder stringBoard = new StringBuilder();
@@ -68,5 +65,4 @@ public class SudokuBoard {
         return stringBoard.toString();
     }
 
-     */
 }

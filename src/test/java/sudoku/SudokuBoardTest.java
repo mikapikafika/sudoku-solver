@@ -12,18 +12,17 @@ class SudokuBoardTest {
     public SudokuBoardTest() {
     }
 
-    
+
     // Tests if two sudoku boards are different.
     @Test
     void differentBoardsTest() {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoardTest1 = new SudokuBoard(solver);
-        SudokuBoard sudokuBoardTest2 = new SudokuBoard(solver);
+        int [][] savedBoardTest = sudokuBoardTest1.getBoard();
 
         sudokuBoardTest1.solveGame();
-        sudokuBoardTest2.solveGame();
 
-        assertFalse(Arrays.deepEquals(sudokuBoardTest1.getBoard(), sudokuBoardTest2.getBoard()));
+        assertFalse(Arrays.deepEquals(sudokuBoardTest1.getBoard(), savedBoardTest));
     }
 
     // Tests to see if the sudoku board solution is valid:
@@ -53,12 +52,11 @@ class SudokuBoardTest {
 
         HashSet<Integer> setRow = new HashSet<>();
 
+
         for (int i = 0; i < 9; i++) {
-            int [] testRow = sudokuBoard.getRow(i);
            for (int j = 0; j < 9; j++) {
                setRow.add(sudokuBoard.getRow(i)[j]);
                assertEquals(9,sudokuBoard.getRow(i).length);
-               assertEquals(sudokuBoard.get(i,j),testRow[j]);
            }
         }
 
@@ -75,12 +73,19 @@ class SudokuBoardTest {
 
         HashSet<Integer> setColumn = new HashSet<>();
 
+        for (int i = 0; i < 9 ; i++){
+            int [] testingColumn = new int[9];
+            for (int j = 0; j < 9; j++){
+                testingColumn[j] = sudokuBoard.get(i,j);
+            }
+            assertArrayEquals(testingColumn, sudokuBoard.getColumn(i));
+        }
+
+
         for (int i = 0; i < 9; i++) {
-            int [] testColumn = sudokuBoard.getColumn(i);
             for (int j = 0; j < 9; j++) {
                 setColumn.add(sudokuBoard.getColumn(i)[j]);
                 assertEquals(9,sudokuBoard.getColumn(i).length);
-                assertEquals(sudokuBoard.get(i,j),testColumn[j]);
             }
         }
 
@@ -120,15 +125,48 @@ class SudokuBoardTest {
 
         assertEquals(sudokuBoard.getBoard()[1][1], sudokuBoard.get(1,1));
 
-
     }
+
+    @Test
+    void sudokuRulesTestSetCell() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+        sudokuBoard.set(1,1,0);
+
+        assertEquals(sudokuBoard.get(1,1),0);
+
+        assertFalse(sudokuBoard.set(9,1,9));
+        assertFalse(sudokuBoard.set(-1,1,9));
+
+        assertFalse(sudokuBoard.set(1,9,9));
+        assertFalse(sudokuBoard.set(1,-1,9));
+
+        assertFalse(sudokuBoard.set(9,9,9));
+        assertFalse(sudokuBoard.set(-1,-1,9));
+
+        assertTrue(sudokuBoard.set(1,1,9));
+        assertEquals(sudokuBoard.get(1,1),9);
+    }
+
     @Test
     void sudokuRulesTestToString() {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
         sudokuBoard.solveGame();
+        String testingToStringSudoku = sudokuBoard.toString();
+        StringBuilder expectedToStringSudoku = new StringBuilder();
 
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                expectedToStringSudoku.append(sudokuBoard.get(i, j));
+                expectedToStringSudoku.append("\t");
+            }
+            expectedToStringSudoku.append("\n");
+        }
+        assertEquals(expectedToStringSudoku.toString(), testingToStringSudoku);
     }
 
 }
