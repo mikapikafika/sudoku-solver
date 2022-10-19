@@ -73,31 +73,6 @@ public class SudokuBoard {
             }
         }
 
-        HashSet<Integer> setRow = new HashSet<>();
-
-        // Checking if there is more than one repetition of the number in a row
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                setRow.add(this.get(i,j));
-            }
-            if (setRow.size() != 9) {
-                return false;
-            }
-            setRow.clear();
-        }
-
-        HashSet<Integer> setColumn = new HashSet<>();
-
-        // Checking if there is more than one repetition of the number in a column
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                setColumn.add(this.get(j, i));
-            }
-            if (setColumn.size() != 9) {
-                return false;
-            }
-            setColumn.clear();
-        }
 
         return true;
     }

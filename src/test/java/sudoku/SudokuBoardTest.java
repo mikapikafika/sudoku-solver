@@ -177,6 +177,8 @@ class SudokuBoardTest {
         sudokuBoard.solveGame();
 
         assertTrue(sudokuBoard.checkIsBoardCorrect());
+
+        sudokuBoard.set(8,8,0);
     }
 
     @Test
