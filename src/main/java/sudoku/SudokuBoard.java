@@ -5,12 +5,17 @@ import java.util.HashSet;
 
 public class SudokuBoard {
     
-    private final int[][] board;
+    private final SudokuField[][] board;
     private final SudokuSolver solver;
 
 
     public SudokuBoard(SudokuSolver solver) {
-        this.board = new int[9][9];
+        this.board = new SudokuField[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                board[i][j] = new SudokuField();
+            }
+        }
         this.solver = solver;
     }
 
@@ -19,32 +24,38 @@ public class SudokuBoard {
     public int[][] getBoard() {
         int[][] copiedBoard = new int[9][9];
         for (int i = 0; i < 9; i++) {
-            System.arraycopy(board[i], 0, copiedBoard[i], 0, 9);
+            for (int j = 0; j < 9; j++) {
+                copiedBoard[i][j] = board[i][j].getFieldValue();
+            }
         }
         return copiedBoard;
     }
 
     public int[] getRow(int row) {
         int[] copiedRow = new int[9];
-        System.arraycopy(board[row], 0, copiedRow, 0, 9);
+        for (int i = 0; i < 9; i++) {
+            copiedRow[i] = board[i][row].getFieldValue();
+        }
         return copiedRow;
     }
 
     public int[] getColumn(int col) {
         int[] copiedColumn = new int[9];
-        System.arraycopy(board[col],0,copiedColumn,0,9);
+        for (int i = 0; i < 9; i++) {
+            copiedColumn[i] = board[col][i].getFieldValue();
+        }
         return copiedColumn;
     }
 
     public int get(int x, int y) {
-        return board[x][y];
+        return board[x][y].getFieldValue();
     }
 
     public boolean set(int x, int y, int value) {
         if (x > 8 || x < 0 || y > 8 || y < 0) {
             return false;
         }
-        board[x][y] = value;
+        board[x][y].setFieldValue(value);
         return true;
     }
 
@@ -83,7 +94,7 @@ public class SudokuBoard {
         StringBuilder stringBoard = new StringBuilder();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                stringBoard.append(board[i][j]);
+                stringBoard.append(board[i][j].getFieldValue());
                 stringBoard.append("\t");
             }
             stringBoard.append("\n");

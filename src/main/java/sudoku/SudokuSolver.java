@@ -1,5 +1,5 @@
 package sudoku;
 
-public interface SudokuSolver {
+interface SudokuSolver {
     void solve(SudokuBoard board);
 }

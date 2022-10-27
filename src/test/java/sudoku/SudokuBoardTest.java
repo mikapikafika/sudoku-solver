@@ -9,9 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {
 
-    public SudokuBoardTest() {
-    }
-
 
     // Tests if two sudoku boards are different.
     @Test
