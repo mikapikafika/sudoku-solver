@@ -3,15 +3,15 @@ package sudoku;
 public class BacktrackingSudokuSolver implements SudokuSolver {
     @Override
     public void solve(SudokuBoard board) {
-        fillSquares(board);
+        fillBoxs(board);
         fillEmptyCells(board);
     }
 
     /**
-     * Fills three 3x3 grids diagonally (from upper left to lower right) with random numbers.
+     * Fills three 3x3 boxes diagonally (from upper left to lower right) with random numbers.
      * Creates a "base" to solve the rest of the board.
      */
-    private void fillSquares(SudokuBoard board) {
+    private void fillBoxs(SudokuBoard board) {
         int randomNumber;
         for (int z = 0; z < 9; z += 3) {
             for (int i = 0; i < 3; i++) {
@@ -35,7 +35,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
     private boolean fillEmptyCells(SudokuBoard board) {
         int emptyRow = 0;
         int emptyCol = 0;
-        if (checkBoard(board)) {
+        if (checkBoardSolved(board)) {
             return true;
         }
 
@@ -70,7 +70,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
      * @param board sudoku board
      * @return true if solved
      */
-    boolean checkBoard(SudokuBoard board) {
+    private boolean checkBoardSolved(SudokuBoard board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (board.get(i,j) == 0) {
@@ -105,7 +105,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
             }
         }
 
-        // ... 3x3 grid
+        // ... 3x3 Box
         int sqrt = 3;
         int rowStart = row - row % sqrt;
         int colStart = col - col % sqrt;

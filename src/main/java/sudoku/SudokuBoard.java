@@ -1,13 +1,14 @@
 package sudoku;
 
-
 import java.util.HashSet;
 
 public class SudokuBoard {
     
     private final SudokuField[][] board;
     private final SudokuSolver solver;
-
+    private final SudokuElement[] rows;
+    private final SudokuElement[] cols;
+    private final SudokuElement[] boxes;
 
     public SudokuBoard(SudokuSolver solver) {
         this.board = new SudokuField[9][9];
@@ -16,36 +17,21 @@ public class SudokuBoard {
                 board[i][j] = new SudokuField();
             }
         }
+
         this.solver = solver;
-    }
 
-
-    // Getters:
-    public int[][] getBoard() {
-        int[][] copiedBoard = new int[9][9];
+        this.rows = new SudokuRow[9];
+        this.cols = new SudokuColumn[9];
+        this.boxes = new SudokuBox[9];
         for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                copiedBoard[i][j] = board[i][j].getFieldValue();
-            }
+            rows[i] = new SudokuRow();
+            cols[i] = new SudokuColumn();
+            boxes[i] = new SudokuBox();
         }
-        return copiedBoard;
     }
 
-    public int[] getRow(int row) {
-        int[] copiedRow = new int[9];
-        for (int i = 0; i < 9; i++) {
-            copiedRow[i] = board[i][row].getFieldValue();
-        }
-        return copiedRow;
-    }
 
-    public int[] getColumn(int col) {
-        int[] copiedColumn = new int[9];
-        for (int i = 0; i < 9; i++) {
-            copiedColumn[i] = board[col][i].getFieldValue();
-        }
-        return copiedColumn;
-    }
+    // Methods:
 
     public int get(int x, int y) {
         return board[x][y].getFieldValue();
@@ -59,36 +45,70 @@ public class SudokuBoard {
         return true;
     }
 
-    // Methods:
+    /**
+     * Check's if the board is correctly solved
+     * @return true if the board is correct
+     */
+    private boolean checkBoard() {
 
-    public void solveGame() {
-        solver.solve(this);
-    }
+        HashSet<Integer> setBox = new HashSet<>();
 
-    public boolean checkIsBoardCorrect() {
-
-        HashSet<Integer> setSquare = new HashSet<>();
-
-        // Checking if there is more than one repetition of the number in a square
+        // Checking if there is more than one repetition of the number in a box
         for (int i = 0; i <= 6; i += 3) {
             for (int j = 0; j <= 6; j += 3) {
                 for (int k = i; k < i + 3; k++) {
                     for (int l = j; l < j + 3; l++) {
-                        setSquare.add(this.get(k, l));
+                        setBox.add(this.get(k, l));
                     }
                 }
-                if (setSquare.size() != 9) {
+                if (setBox.size() != 9) {
                     return false;
                 }
-                setSquare.clear();
+                setBox.clear();
             }
         }
-
 
         return true;
     }
 
+    public SudokuElement getRow(int y) {
+        return rows[y];
+    }
 
+    public SudokuElement getColumn(int x) {
+        return cols[x];
+    }
+
+    public SudokuElement getBox(int x, int y) {
+        int sqrt = 3;
+        int rowStart = x - x % sqrt;
+        int colStart = y - y % sqrt;
+        int boxNumber = (3 * rowStart + colStart) / 3;
+
+        return boxes[boxNumber];
+    }
+
+    public int[][] getBoard() {
+        int[][] copiedBoard = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                copiedBoard[i][j] = board[i][j].getFieldValue();
+            }
+        }
+        return copiedBoard;
+    }
+
+    /**
+     * Solves the sudoku with the chosen algorithm
+     */
+    public void solveGame() {
+        solver.solve(this);
+    }
+
+    /**
+     * Prints the board using overrided toString() method
+     * @return a string - sudoku board
+     */
     @Override
     public String toString() {
         StringBuilder stringBoard = new StringBuilder();
