@@ -1,3 +1,5 @@
 package sudoku;
 
-public class SudokuBox extends SudokuElement { }
+public class SudokuBox extends SudokuElement {
+
+}

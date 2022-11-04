@@ -2,71 +2,69 @@ package sudoku;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.function.BooleanSupplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//class SudokuBoardTest {
-//
-//    // Tests if two sudoku boards are different.
-//    @Test
-//    void differentBoardsTest() {
-//        SudokuSolver solver = new BacktrackingSudokuSolver();
-//        SudokuBoard sudokuBoardTest1 = new SudokuBoard(solver);
-//        int [][] savedBoardTest = sudokuBoardTest1.getBoard();
-//
-//        sudokuBoardTest1.solveGame();
-//
-//        assertFalse(Arrays.deepEquals(sudokuBoardTest1.getBoard(), savedBoardTest));
-//    }
-//
-//    // Tests to see if the sudoku board solution is valid:
-//
-//    // Tests if the numbers are in range.
-//    @Test
-//    void sudokuRulesTestRange() {
-//        SudokuSolver solver = new BacktrackingSudokuSolver();
-//        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-//
-//        sudokuBoard.solveGame();
-//
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                assertFalse(sudokuBoard.getBoard()[i][j] <= 0 && sudokuBoard.getBoard()[i][j] > 9);
-//            }
-//        }
-//    }
-//
-//    // Tests if a value is repeated in a row
-//    @Test
-//    void sudokuRulesTestGetRow() {
-//        SudokuSolver solver = new BacktrackingSudokuSolver();
-//        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-//
-//        sudokuBoard.solveGame();
-//
-//        HashSet<Integer> setRow = new HashSet<>();
-//
-//
-//        for (int i = 0; i < 9; i++) {
-//           for (int j = 0; j < 9; j++) {
-//               setRow.add(sudokuBoard.getRow(i)[j]);
-//               assertEquals(9,sudokuBoard.getRow(i).length);
-//           }
-//        }
-//
-//        assertEquals(9,setRow.size());
-//        setRow.clear();
-//    }
-//
-//    // Tests if a value is repeated in a column
-//    @Test
-//    void sudokuRulesTestGetColumn() {
-//        SudokuSolver solver = new BacktrackingSudokuSolver();
-//        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-//        sudokuBoard.solveGame();
-//
+class SudokuBoardTest {
+
+    // Tests if two sudoku boards are different.
+    @Test
+    void differentBoardsTest() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoardTest1 = new SudokuBoard(solver);
+        int [][] savedBoardTest = sudokuBoardTest1.getBoard();
+
+        sudokuBoardTest1.solveGame();
+
+        assertFalse(Arrays.deepEquals(sudokuBoardTest1.getBoard(), savedBoardTest));
+    }
+
+    // Tests to see if the sudoku board solution is valid:
+
+    // Tests if the numbers are in range.
+    @Test
+    void sudokuRulesTestRange() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                assertFalse(sudokuBoard.getBoard()[i][j] <= 0 && sudokuBoard.getBoard()[i][j] > 9);
+            }
+        }
+    }
+
+    // Tests if a value is repeated in a row
+    @Test
+    void sudokuRulesTestGetRow() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        for (int i = 0; i < 9; i++) {
+            assertTrue(sudokuBoard.getRow(i).verify());
+        }
+    }
+
+    // Tests if a value is repeated in a column
+    @Test
+    void sudokuRulesTestGetColumn() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        for (int i = 0; i < 9; i++) {
+            assertTrue(sudokuBoard.getColumn(i).verify());
+        }
+
 //        HashSet<Integer> setColumn = new HashSet<>();
 //
 //        for (int i = 0; i < 9 ; i++){
@@ -87,16 +85,22 @@ import static org.junit.jupiter.api.Assertions.*;
 //
 //        assertEquals(9,setColumn.size());
 //        setColumn.clear();
-//    }
-//
-//    // Tests if a value is repeated in a 3x3 box
-//    @Test
-//    void sudokuRulesTestBox() {
-//        SudokuSolver solver = new BacktrackingSudokuSolver();
-//        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-//
-//        sudokuBoard.solveGame();
-//
+    }
+
+    // Tests if a value is repeated in a 3x3 box
+    @Test
+    void sudokuRulesTestBox() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                assertTrue(sudokuBoard.getBox(i,j).verify());
+            }
+        }
+
 //        HashSet<Integer> setBox = new HashSet<>();
 //
 //        for (int i = 0; i <= 6; i += 3) {
@@ -110,73 +114,80 @@ import static org.junit.jupiter.api.Assertions.*;
 //                setBox.clear();
 //            }
 //        }
-//    }
-//
-//    @Test
-//    void sudokuRulesTestGetCell() {
-//        SudokuSolver solver = new BacktrackingSudokuSolver();
-//        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-//
-//        sudokuBoard.solveGame();
-//
-//        assertEquals(sudokuBoard.getBoard()[1][1], sudokuBoard.get(1,1));
-//
-//    }
-//
-//    @Test
-//    void sudokuRulesTestSetCell() {
-//        SudokuSolver solver = new BacktrackingSudokuSolver();
-//        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-//
-//        sudokuBoard.solveGame();
-//        sudokuBoard.set(1,1,0);
-//
-//        assertEquals(sudokuBoard.get(1,1),0);
-//
-//        assertFalse(sudokuBoard.set(9,1,9));
-//        assertFalse(sudokuBoard.set(-1,1,9));
-//
-//        assertFalse(sudokuBoard.set(1,9,9));
-//        assertFalse(sudokuBoard.set(1,-1,9));
-//
-//        assertFalse(sudokuBoard.set(9,9,9));
-//        assertFalse(sudokuBoard.set(-1,-1,9));
-//
-//        assertTrue(sudokuBoard.set(1,1,9));
-//        assertEquals(sudokuBoard.get(1,1),9);
-//    }
-//
-//    @Test
-//    void sudokuRulesTestToString() {
-//        SudokuSolver solver = new BacktrackingSudokuSolver();
-//        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-//
-//        sudokuBoard.solveGame();
-//        String testingToStringSudoku = sudokuBoard.toString();
-//        StringBuilder expectedToStringSudoku = new StringBuilder();
-//
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                expectedToStringSudoku.append(sudokuBoard.get(i, j));
-//                expectedToStringSudoku.append("\t");
-//            }
-//            expectedToStringSudoku.append("\n");
-//        }
-//        assertEquals(expectedToStringSudoku.toString(), testingToStringSudoku);
-//    }
-//
-//    @Test
-//    void sudokuRulesTestcheckBoard() {
-//        SudokuSolver solver = new BacktrackingSudokuSolver();
-//        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-//
-//        sudokuBoard.solveGame();
-//
+    }
+
+    @Test
+    void sudokuRulesTestGet() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        assertEquals(sudokuBoard.getBoard()[1][1], sudokuBoard.get(1,1));
+
+    }
+
+    @Test
+    void sudokuRulesTestSet() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+        sudokuBoard.set(1,1,0);
+
+        assertEquals(sudokuBoard.get(1,1),0);
+
+        assertFalse(sudokuBoard.set(9,1,9));
+        assertFalse(sudokuBoard.set(-1,1,9));
+
+        assertFalse(sudokuBoard.set(1,9,9));
+        assertFalse(sudokuBoard.set(1,-1,9));
+
+        assertFalse(sudokuBoard.set(9,9,9));
+        assertFalse(sudokuBoard.set(-1,-1,9));
+
+        assertTrue(sudokuBoard.set(1,1,9));
+        assertEquals(sudokuBoard.get(1,1),9);
+    }
+
+    @Test
+    void sudokuRulesTestToString() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+        String testingToStringSudoku = sudokuBoard.toString();
+        StringBuilder expectedToStringSudoku = new StringBuilder();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                expectedToStringSudoku.append(sudokuBoard.get(i, j));
+                expectedToStringSudoku.append("\t");
+            }
+            expectedToStringSudoku.append("\n");
+        }
+        assertEquals(expectedToStringSudoku.toString(), testingToStringSudoku);
+    }
+
+    @Test
+    void sudokuRulesTestCheckBoard() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        try {
+            Method privateMethod = SudokuBoard.class.getDeclaredMethod("checkBoard");
+            privateMethod.setAccessible(true);
+            assertTrue((Boolean)privateMethod.invoke(sudokuBoard));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
 //        assertTrue(sudokuBoard.checkBoard());
-//
-//        sudokuBoard.set(8,8,0);
-//    }
-//
+    }
+
 //    @Test
 //    void sudokuRulesTestCheckIsBoardInCorrectDueToRepetitionInRow() {
 //        SudokuSolver solver = new BacktrackingSudokuSolver();
@@ -215,6 +226,7 @@ import static org.junit.jupiter.api.Assertions.*;
 //        sudokuBoard.set(2,2,1);
 //        assertFalse(sudokuBoard.checkBoard());
 //    }
-//
-//}
+
+
+}
 

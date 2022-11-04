@@ -4,14 +4,25 @@ import java.util.HashSet;
 
 public abstract class SudokuElement {
 
-    private final SudokuField[] field;
+    private SudokuField[] fields;
+
     public SudokuElement() {
-        this.field = new SudokuField[9];
+        this.fields = new SudokuField[9];
+    }
+
+    public SudokuField[] getFields() {
+        SudokuField[] newFields = new SudokuField[9];
+        for (int i = 0; i < 9; i++) {
+            newFields[i] = new SudokuField(fields[i].getRowLoc(), fields[i].getColLoc());
+            newFields[i].setFieldValue(fields[i].getFieldValue());
+        }
+        return newFields;
     }
 
     // Methods:
+
     /**
-     * Verifies if the sudoku element is correct
+     * Verifies if the sudoku element is correct.
      *
      * @return true if there's no repetitions - the HashSet's size is 9
      */
@@ -19,10 +30,16 @@ public abstract class SudokuElement {
         HashSet<Integer> setField = new HashSet<>();
 
         for (int i = 0; i < 9; i++) {
-            setField.add(field[i].getFieldValue());
+            setField.add(fields[i].getFieldValue());
         }
 
         return setField.size() == 9;
+    }
+
+    //Additional:
+
+    public void setFieldInElement(int loc, SudokuField field) {
+        this.fields[loc] = field;
     }
 }
 
