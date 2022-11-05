@@ -40,7 +40,7 @@ public class SudokuField {
     }
 
     //Additional:
-    //powtarza się
+
     private int getLocationInBox(int x, int y) {
         int rowStart = x - x % 3;
         int colStart = y - y % 3;

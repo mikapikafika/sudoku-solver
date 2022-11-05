@@ -1,7 +1,5 @@
 package sudoku;
 
-import java.util.HashSet;
-
 public class SudokuBoard {
     
     private final SudokuField[][] board = new SudokuField[9][9];
@@ -21,10 +19,6 @@ public class SudokuBoard {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                ///chce mi się spać nie pamiętam co to robiło ale jest na to funkcja
-//                int startingRowBoxNumber = i - (i % 3);
-//                int startingColBoxNumber = j - (j % 3);
-//                int boxNumber = (3 * startingRowBoxNumber + startingColBoxNumber) / 3;
                 board[i][j] = new SudokuField(i, j);
             }
         }
@@ -44,13 +38,11 @@ public class SudokuBoard {
 
         rows[x].setFieldInElement(y, board[x][y].getField());
         cols[y].setFieldInElement(x, board[x][y].getField());
-
-        int startingRowBoxNumber = x - (x % 3);
-        int startingColBoxNumber = y - (y % 3);
-        int boxNumber = (3 * startingRowBoxNumber + startingColBoxNumber) / 3;
-        boxes[boxNumber].setFieldInElement(getLocationInBox(x, y), board[x][y].getField());
+        boxes[getBoxCoords(x,y)].setFieldInElement(getLocationInBox(x,y),
+                board[x][y].getField());
 
         board[x][y].setFieldValue(value);
+
         return true;
     }
 
@@ -60,21 +52,9 @@ public class SudokuBoard {
      */
     private boolean checkBoard() {
 
-        HashSet<Integer> setBox = new HashSet<>();
-
-        // Checking if there is more than one repetition of the number in a box
-        //rewizja?
-        for (int i = 0; i <= 6; i += 3) {
-            for (int j = 0; j <= 6; j += 3) {
-                for (int k = i; k < i + 3; k++) {
-                    for (int l = j; l < j + 3; l++) {
-                        setBox.add(this.get(k, l));
-                    }
-                }
-                if (setBox.size() != 9) {
-                    return false;
-                }
-                setBox.clear();
+        for (int i = 0; i < 9; i++) {
+            if (!rows[i].verify() || !cols[i].verify() || !boxes[i].verify()) {
+                return false;
             }
         }
 
@@ -83,7 +63,6 @@ public class SudokuBoard {
 
     public SudokuRow getRow(int y) {
         SudokuRow row = new SudokuRow();
-        SudokuField[] field = new SudokuField[9];
         for (int i = 0; i < 9; i++) {
             row.setFieldInElement(i, rows[y].getFields()[i]);
         }
@@ -93,7 +72,6 @@ public class SudokuBoard {
 
     public SudokuColumn getColumn(int x) {
         SudokuColumn col = new SudokuColumn();
-        SudokuField[] field = new SudokuField[9];
         for (int i = 0; i < 9; i++) {
             col.setFieldInElement(i, cols[x].getFields()[i]);
         }
@@ -102,14 +80,10 @@ public class SudokuBoard {
     }
 
     public SudokuBox getBox(int x, int y) {
-        int startingRowBoxNumber = x - (x % 3);
-        int startingColBoxNumber = y - (y % 3);
-        int boxNumber = (3 * startingRowBoxNumber + startingColBoxNumber) / 3;
-
         SudokuBox box = new SudokuBox();
         for (int i = 0; i < 9; i++) {
-            box.setFieldInElement(boxes[boxNumber].getFields()[i].getBoxLoc(),
-                    boxes[boxNumber].getFields()[i]);
+            box.setFieldInElement(boxes[getBoxCoords(x,y)].getFields()[i].getBoxLoc(),
+                    boxes[getBoxCoords(x,y)].getFields()[i]);
         }
 
         return box;
@@ -152,13 +126,6 @@ public class SudokuBoard {
         return copiedBoard;
     }
 
-    private int getBoxLocation(int x, int y) {
-        int rowStart = x - x % 3;
-        int colStart = y - y % 3;
-
-        return (3 * rowStart + colStart) / 3;
-    }
-
     private int getLocationInBox(int x, int y) {
         int rowStart = x - x % 3;
         int colStart = y - y % 3;
@@ -167,6 +134,13 @@ public class SudokuBoard {
         int colLoc = y - colStart;
 
         return 3 * colLoc + rowLoc;
+    }
+
+    private int getBoxCoords(int x, int y) {
+        int rowStart = x - x % 3;
+        int colStart = y - y % 3;
+
+        return (3 * rowStart + colStart) / 3;
     }
 
 }
