@@ -143,9 +143,8 @@ class SudokuBoardTest {
 
             assertTrue((Boolean)privateMethod.invoke(sudokuBoard));
 
-            sudokuBoard.set(0,0,1);
-            sudokuBoard.set(0,3,1);
-            sudokuBoard.set(0,6,1);
+            sudokuBoard.set(0,3,sudokuBoard.get(0,0));
+            sudokuBoard.set(0,6,sudokuBoard.get(0,0));
 
             assertFalse((Boolean)privateMethod.invoke(sudokuBoard));
         }
@@ -167,9 +166,8 @@ class SudokuBoardTest {
 
             assertTrue((Boolean)privateMethod.invoke(sudokuBoard));
 
-            sudokuBoard.set(0,0,1);
-            sudokuBoard.set(3,0,1);
-            sudokuBoard.set(6,0,1);
+            sudokuBoard.set(3,0,sudokuBoard.get(0,0));
+            sudokuBoard.set(6,0,sudokuBoard.get(0,0));
 
             assertFalse((Boolean)privateMethod.invoke(sudokuBoard));
         }
@@ -191,9 +189,56 @@ class SudokuBoardTest {
 
             assertTrue((Boolean)privateMethod.invoke(sudokuBoard));
 
-            sudokuBoard.set(0,0,1);
-            sudokuBoard.set(1,1,1);
-            sudokuBoard.set(2,2,1);
+            sudokuBoard.set(1,1,sudokuBoard.get(0,0));
+            sudokuBoard.set(2,2,sudokuBoard.get(0,0));
+
+            assertFalse((Boolean)privateMethod.invoke(sudokuBoard));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void checkBoardIncorrectDueToRepetitionInColBoxTest() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        try {
+            Method privateMethod = SudokuBoard.class.getDeclaredMethod("checkBoard");
+            privateMethod.setAccessible(true);
+
+            assertTrue((Boolean)privateMethod.invoke(sudokuBoard));
+
+            sudokuBoard.set(6,0,sudokuBoard.get(3,0));
+            sudokuBoard.set(1,1,sudokuBoard.get(3,0));
+            sudokuBoard.set(2,2,sudokuBoard.get(3,0));
+
+            assertFalse((Boolean)privateMethod.invoke(sudokuBoard));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void checkBoardIncorrectDueToRepetitionInRowBoxTest() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        sudokuBoard.solveGame();
+
+        try {
+            Method privateMethod = SudokuBoard.class.getDeclaredMethod("checkBoard");
+            privateMethod.setAccessible(true);
+
+            assertTrue((Boolean)privateMethod.invoke(sudokuBoard));
+
+            sudokuBoard.set(1,1,sudokuBoard.get(0,3));
+            sudokuBoard.set(2,2,sudokuBoard.get(0,3));
+            sudokuBoard.set(0,6,sudokuBoard.get(0,3));
 
             assertFalse((Boolean)privateMethod.invoke(sudokuBoard));
         }
