@@ -20,8 +20,6 @@ class SudokuBoardTest {
         assertFalse(Arrays.deepEquals(sudokuBoardTest1.getBoard(), savedBoardTest));
     }
 
-    // Tests to see if the sudoku board solution is valid:
-
     // Tests if the numbers are in range.
     @Test
     void sudokuRulesTestRange() {
@@ -33,47 +31,6 @@ class SudokuBoardTest {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 assertFalse(sudokuBoard.getBoard()[i][j] <= 0 && sudokuBoard.getBoard()[i][j] > 9);
-            }
-        }
-    }
-
-    // Tests if a value is repeated in a row
-    @Test
-    void sudokuRulesTestGetRow() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-
-        sudokuBoard.solveGame();
-
-        for (int i = 0; i < 9; i++) {
-            assertTrue(sudokuBoard.getRow(i).verify());
-        }
-    }
-
-    // Tests if a value is repeated in a column
-    @Test
-    void sudokuRulesTestGetColumn() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-
-        sudokuBoard.solveGame();
-
-        for (int i = 0; i < 9; i++) {
-            assertTrue(sudokuBoard.getColumn(i).verify());
-        }
-    }
-
-    // Tests if a value is repeated in a 3x3 box
-    @Test
-    void sudokuRulesTestBox() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-
-        sudokuBoard.solveGame();
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                assertTrue(sudokuBoard.getBox(i,j).verify());
             }
         }
     }
@@ -143,7 +100,7 @@ class SudokuBoardTest {
 
             assertTrue((Boolean)privateMethod.invoke(sudokuBoard));
 
-            sudokuBoard.set(0,3,sudokuBoard.get(0,0));
+            sudokuBoard.set(0,0,sudokuBoard.get(0,0));
             sudokuBoard.set(0,6,sudokuBoard.get(0,0));
 
             assertFalse((Boolean)privateMethod.invoke(sudokuBoard));
@@ -166,7 +123,7 @@ class SudokuBoardTest {
 
             assertTrue((Boolean)privateMethod.invoke(sudokuBoard));
 
-            sudokuBoard.set(3,0,sudokuBoard.get(0,0));
+            sudokuBoard.set(0,0,sudokuBoard.get(0,0));
             sudokuBoard.set(6,0,sudokuBoard.get(0,0));
 
             assertFalse((Boolean)privateMethod.invoke(sudokuBoard));
@@ -189,8 +146,8 @@ class SudokuBoardTest {
 
             assertTrue((Boolean)privateMethod.invoke(sudokuBoard));
 
-            sudokuBoard.set(1,1,sudokuBoard.get(0,0));
-            sudokuBoard.set(2,2,sudokuBoard.get(0,0));
+            sudokuBoard.set(1,1,sudokuBoard.get(0,3));
+            sudokuBoard.set(2,2,sudokuBoard.get(0,3));
 
             assertFalse((Boolean)privateMethod.invoke(sudokuBoard));
         }
@@ -212,9 +169,9 @@ class SudokuBoardTest {
 
             assertTrue((Boolean)privateMethod.invoke(sudokuBoard));
 
-            sudokuBoard.set(6,0,sudokuBoard.get(3,0));
-            sudokuBoard.set(1,1,sudokuBoard.get(3,0));
-            sudokuBoard.set(2,2,sudokuBoard.get(3,0));
+            sudokuBoard.set(6,0,sudokuBoard.get(0,3));
+            sudokuBoard.set(1,1,sudokuBoard.get(0,3));
+            sudokuBoard.set(2,2,sudokuBoard.get(0,3));
 
             assertFalse((Boolean)privateMethod.invoke(sudokuBoard));
         }
@@ -246,47 +203,28 @@ class SudokuBoardTest {
             e.printStackTrace();
         }
     }
-
-    // Tests for the verify method in SudokuElement
-
     @Test
-    void sudokuElementVerifyIncorrectDueToRepetitionInRowTest() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-
-        sudokuBoard.solveGame();
-        sudokuBoard.set(0,0,1);
-        sudokuBoard.set(0,3,1);
-        sudokuBoard.set(0,6,1);
-        assertFalse(sudokuBoard.getRow(0).verify());
-
-    }
-
-    @Test
-    void sudokuElementVerifyIncorrectDueToRepetitionInColTest() {
+    void checkBoardIncorrectDueToRepetitionInRowColTest() {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
         sudokuBoard.solveGame();
 
-        sudokuBoard.set(0,0,1);
-        sudokuBoard.set(3,0,1);
-        sudokuBoard.set(6,0,1);
-        assertFalse(sudokuBoard.getColumn(0).verify());
+        try {
+            Method privateMethod = SudokuBoard.class.getDeclaredMethod("checkBoard");
+            privateMethod.setAccessible(true);
 
-    }
+            assertTrue((Boolean)privateMethod.invoke(sudokuBoard));
 
-    @Test
-    void sudokuElementVerifyIncorrectDueToRepetitionInBoxTest() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+            sudokuBoard.set(0,0,sudokuBoard.get(0,3));
+            sudokuBoard.set(0,6,sudokuBoard.get(0,3));
+            sudokuBoard.set(6,0,sudokuBoard.get(0,3));
 
-        sudokuBoard.solveGame();
-
-        sudokuBoard.set(0,0,1);
-        sudokuBoard.set(1,1,1);
-        sudokuBoard.set(2,2,1);
-        assertFalse(sudokuBoard.getBox(0,0).verify());
+            assertFalse((Boolean)privateMethod.invoke(sudokuBoard));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Additional methods tests:

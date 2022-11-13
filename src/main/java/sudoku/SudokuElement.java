@@ -1,22 +1,14 @@
 package sudoku;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 public abstract class SudokuElement {
 
-    private SudokuField[] fields;
+    private List<SudokuField> fields = Arrays.asList(new SudokuField[9]);
 
     public SudokuElement() {
-        this.fields = new SudokuField[9];
-    }
-
-    public SudokuField[] getFields() {
-        SudokuField[] newFields = new SudokuField[9];
-        for (int i = 0; i < 9; i++) {
-            newFields[i] = new SudokuField(fields[i].getRowLoc(), fields[i].getColLoc());
-            newFields[i].setFieldValue(fields[i].getFieldValue());
-        }
-        return newFields;
     }
 
     // Methods:
@@ -30,7 +22,7 @@ public abstract class SudokuElement {
         HashSet<Integer> setField = new HashSet<>();
 
         for (int i = 0; i < 9; i++) {
-            setField.add(fields[i].getFieldValue());
+            setField.add(fields.get(i).getFieldValue());
         }
 
         return setField.size() == 9;
@@ -39,7 +31,7 @@ public abstract class SudokuElement {
     //Additional:
 
     public void setFieldInElement(int loc, SudokuField field) {
-        this.fields[loc] = field;
+        this.fields.set(loc,field);
     }
 }
 
