@@ -1,5 +1,9 @@
 package sudoku;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -101,23 +105,6 @@ public class SudokuBoard {
         checkBoard();
     }
 
-    /**
-     * Prints the board using overriden toString() method.
-     * @return a string - sudoku board
-     */
-    @Override
-    public String toString() {
-        StringBuilder stringBoard = new StringBuilder();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                stringBoard.append(board.get(i).get(j).getFieldValue());
-                stringBoard.append("\t");
-            }
-            stringBoard.append("\n");
-        }
-        return stringBoard.toString();
-    }
-
     //Additional methods:
 
     public int[][] getBoard() {
@@ -130,4 +117,25 @@ public class SudokuBoard {
         return copiedBoard;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof SudokuBoard that)) return false;
+
+        return new EqualsBuilder().append(getBoard(), that.getBoard()).append(solver, that.solver).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(getBoard()).append(solver).toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("board", board)
+                .append("solver", solver)
+                .toString();
+    }
 }
