@@ -1,31 +1,37 @@
 package sudoku;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class SudokuBoard {
     
-    private final SudokuField[][] board = new SudokuField[9][9];
+    private final List<List<SudokuField>> board;
     private final SudokuSolver solver;
 
     public SudokuBoard(SudokuSolver solver) {
         this.solver = solver;
 
-        for (int i = 0; i < 9; i++) {
+        board = new ArrayList<>(9);
+        for (int i = 0; i < 9; ++i) {
+            board.add(new ArrayList<>(9));
             for (int j = 0; j < 9; j++) {
-                board[i][j] = new SudokuField();
+                board.get(i).add(j, new SudokuField());
             }
         }
-    }
+}
 
     // Methods:
 
     public int get(int x, int y) {
-        return board[x][y].getFieldValue();
+        return board.get(x).get(y).getFieldValue();
     }
 
     public boolean set(int x, int y, int value) {
         if (x > 8 || x < 0 || y > 8 || y < 0) {
             return false;
         }
-        board[x][y].setFieldValue(value);
+        board.get(x).get(y).setFieldValue(value);
 
         return true;
     }
@@ -55,7 +61,7 @@ public class SudokuBoard {
         SudokuRow row = new SudokuRow();
         for (int i = 0; i < 9; i++) {
             SudokuField field = new SudokuField();
-            field.setFieldValue(board[i][y].getFieldValue());
+            field.setFieldValue(board.get(i).get(y).getFieldValue());
             row.setFieldInElement(i,field);
         }
         return row;
@@ -65,7 +71,7 @@ public class SudokuBoard {
         SudokuColumn col = new SudokuColumn();
         for (int i = 0; i < 9; i++) {
             SudokuField field = new SudokuField();
-            field.setFieldValue(board[x][i].getFieldValue());
+            field.setFieldValue(board.get(x).get(i).getFieldValue());
             col.setFieldInElement(i,field);
         }
         return col;
@@ -79,7 +85,7 @@ public class SudokuBoard {
         for (int i = rowStart; i < rowStart + 3; i++) {
             for (int j = colStart; j < colStart + 3; j++) {
                 SudokuField field = new SudokuField();
-                field.setFieldValue(board[i][j].getFieldValue());
+                field.setFieldValue(board.get(i).get(j).getFieldValue());
                 box.setFieldInElement(index,field);
                 index++;
             }
@@ -95,11 +101,8 @@ public class SudokuBoard {
         checkBoard();
     }
 
-
-    //Additional methods:
-
     /**
-     * Prints the board using overrided toString() method.
+     * Prints the board using overriden toString() method.
      * @return a string - sudoku board
      */
     @Override
@@ -107,7 +110,7 @@ public class SudokuBoard {
         StringBuilder stringBoard = new StringBuilder();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                stringBoard.append(board[i][j].getFieldValue());
+                stringBoard.append(board.get(i).get(j).getFieldValue());
                 stringBoard.append("\t");
             }
             stringBoard.append("\n");
@@ -115,11 +118,13 @@ public class SudokuBoard {
         return stringBoard.toString();
     }
 
+    //Additional methods:
+
     public int[][] getBoard() {
         int[][] copiedBoard = new int[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                copiedBoard[i][j] = board[i][j].getFieldValue();
+                copiedBoard[i][j] = board.get(i).get(j).getFieldValue();
             }
         }
         return copiedBoard;

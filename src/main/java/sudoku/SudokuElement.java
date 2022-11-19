@@ -1,12 +1,13 @@
 package sudoku;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 public abstract class SudokuElement {
 
-    private List<SudokuField> fields = Arrays.asList(new SudokuField[9]);
+    private final List<SudokuField> fields = Arrays.asList(new SudokuField[9]);
 
     public SudokuElement() {
     }
