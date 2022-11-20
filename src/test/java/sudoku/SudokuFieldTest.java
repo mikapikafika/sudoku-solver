@@ -1,54 +1,51 @@
 package sudoku;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SudokuFieldTest {
 
-    SudokuField f1 = new SudokuField();
-    SudokuField f2 = new SudokuField();
-    SudokuField f3 = new SudokuField();
-    SudokuField f4 = new SudokuField();
-
-    @BeforeEach
-    void init() {
-        f1.setFieldValue(1);
-        f2.setFieldValue(1);
-        f3.setFieldValue(2);
-    }
 
     // equals tests:
-
     @Test
-    void equalsExactlyTheSameObjectTest() {
-        assertTrue(f1.equals(f1));
+    void testEqualsSameObj() {
+        SudokuField field = new SudokuField();
+        assertTrue(field.equals(field));
     }
-
     @Test
-    void equalsTheSameObjectsTest() {
-        assertTrue(f1.equals(f2));
+    void testEqualsNull() {
+        SudokuField field = new SudokuField();
+        assertFalse(field.equals(null));
     }
 
     @Test
     void equalsNotTheSameObjectsTest() {
-        assertFalse(f1.equals(f3));
+        SudokuField field1 = new SudokuField();
+        SudokuField field2 = new SudokuField();
+        field1.setFieldValue(1);
+        field2.setFieldValue(2);
+
+        assertFalse(field1.equals(field2));
     }
 
     @Test
     void equalsDifferentObjectsTest() {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
+        SudokuField field1 = new SudokuField();
 
-        assertFalse(f1.equals(sudokuBoard));
+        assertFalse(field1.equals(sudokuBoard));
     }
 
     @Test
     void equalsFalseHashCodeFalseTest() {
-        //?????????????????????????????
-        assertFalse(f1.equals(f3));
-        assertNotEquals(f1.hashCode(),f3.hashCode());
+        SudokuField field1 = new SudokuField();
+        SudokuField field2 = new SudokuField();
+        field1.setFieldValue(1);
+        field2.setFieldValue(2);
+
+        assertNotEquals(field1.hashCode(),field2.hashCode());
     }
 
 
