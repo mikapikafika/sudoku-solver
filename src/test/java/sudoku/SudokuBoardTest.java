@@ -293,7 +293,7 @@ class SudokuBoardTest {
         assertNotEquals(sudokuBoard.hashCode(), sudokuBoard2.hashCode());
     }
 
-    // equals & hashCode tests:
+    // equals & hashCode tests - integrity:
 
     @Test
     void equalsTrueHashCodeTrueTest() {
@@ -306,15 +306,15 @@ class SudokuBoardTest {
     }
 
     @Test
-    void hashCodeFalseEqualsFalseTest() {
+    void equalsFalseHashCodeFalseTest() {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
         sudokuBoard.solveGame();
         SudokuBoard sudokuBoard2 = new SudokuBoard(solver);
         sudokuBoard2.solveGame();
 
-        assertNotEquals(sudokuBoard.hashCode(), sudokuBoard2.hashCode());
         assertFalse(sudokuBoard.equals(sudokuBoard2));
+        assertNotEquals(sudokuBoard.hashCode(), sudokuBoard2.hashCode());
     }
 
     //toString tests:

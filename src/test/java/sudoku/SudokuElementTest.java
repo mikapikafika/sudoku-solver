@@ -134,18 +134,6 @@ class SudokuElementTest {
         assertFalse(sudokuBoard.getColumn(0).equals(sudokuBoard));
     }
 
-    @Test
-    void equalsFalseHashCodeFalseTest() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-        sudokuBoard.solveGame();
-
-        assertNotEquals(sudokuBoard.getColumn(0).hashCode(),
-                sudokuBoard.getColumn(1).hashCode());
-        assertFalse(sudokuBoard.getColumn(0)
-                .equals(sudokuBoard.getColumn(1)));
-    }
-
     // hashCode tests:
 
     @Test
@@ -165,6 +153,76 @@ class SudokuElementTest {
 
         assertNotEquals(sudokuBoard.getColumn(0).hashCode(),
                 sudokuBoard.getColumn(1).hashCode());
+    }
+
+    // equals & hashCode tests - integrity:
+
+    @Test
+    void equalsTrueHashCodeMustBeTrueTest() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        assertTrue(sudokuBoard.getColumn(0)
+                .equals(sudokuBoard.getColumn(1)));
+        assertEquals(sudokuBoard.getColumn(0).hashCode(),
+                sudokuBoard.getColumn(1).hashCode());
+    }
+
+    @Test
+    void equalsFalseHashCodeMayBeTrueTest() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        assertFalse(sudokuBoard.getColumn(0)
+                .equals(sudokuBoard.getRow(0)));
+        assertEquals(sudokuBoard.getColumn(0).hashCode(),
+                sudokuBoard.getRow(0).hashCode());
+    }
+
+    @Test
+    void equalsFalseHashCodeMustBeFalseTest() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+        sudokuBoard.solveGame();
+
+        assertFalse(sudokuBoard.getColumn(0)
+                .equals(sudokuBoard.getColumn(1)));
+        assertNotEquals(sudokuBoard.getColumn(0).hashCode(),
+                sudokuBoard.getColumn(1).hashCode());
+    }
+
+    @Test
+    void hashCodeFalseEqualsMustBeFalseTest() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+        sudokuBoard.solveGame();
+
+        assertNotEquals(sudokuBoard.getColumn(0).hashCode(),
+                sudokuBoard.getColumn(1).hashCode());
+        assertFalse(sudokuBoard.getColumn(0)
+                .equals(sudokuBoard.getColumn(1)));
+    }
+
+    @Test
+    void hashCodeTrueEqualsMayBeTrueTest() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        assertEquals(sudokuBoard.getColumn(1).hashCode(),
+                sudokuBoard.getColumn(2).hashCode());
+        assertTrue(sudokuBoard.getColumn(1)
+                .equals(sudokuBoard.getColumn(2)));
+    }
+
+    @Test
+    void hashCodeTrueEqualsMayBeFalseTest() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(solver);
+
+        assertEquals(sudokuBoard.getColumn(0).hashCode(),
+                sudokuBoard.getRow(0).hashCode());
+        assertFalse(sudokuBoard.getColumn(0)
+                .equals(sudokuBoard.getRow(0)));
     }
 
     //toString tests:

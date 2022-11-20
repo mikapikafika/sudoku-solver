@@ -6,13 +6,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SudokuFieldTest {
 
-
     // equals tests:
+
     @Test
     void testEqualsSameObj() {
         SudokuField field = new SudokuField();
         assertTrue(field.equals(field));
     }
+
     @Test
     void testEqualsNull() {
         SudokuField field = new SudokuField();
@@ -37,16 +38,4 @@ public class SudokuFieldTest {
 
         assertFalse(field1.equals(sudokuBoard));
     }
-
-    @Test
-    void equalsFalseHashCodeFalseTest() {
-        SudokuField field1 = new SudokuField();
-        SudokuField field2 = new SudokuField();
-        field1.setFieldValue(1);
-        field2.setFieldValue(2);
-
-        assertNotEquals(field1.hashCode(),field2.hashCode());
-    }
-
-
 }
