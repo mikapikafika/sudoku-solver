@@ -228,26 +228,5 @@ class SudokuBoardTest {
             e.printStackTrace();
         }
     }
-
-    // Additional methods tests:
-
-    @Test
-    void toStringTest() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard sudokuBoard = new SudokuBoard(solver);
-
-        sudokuBoard.solveGame();
-        String testingToStringSudoku = sudokuBoard.toString();
-        StringBuilder expectedToStringSudoku = new StringBuilder();
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                expectedToStringSudoku.append(sudokuBoard.get(i, j));
-                expectedToStringSudoku.append("\t");
-            }
-            expectedToStringSudoku.append("\n");
-        }
-        assertEquals(expectedToStringSudoku.toString(), testingToStringSudoku);
-    }
 }
 

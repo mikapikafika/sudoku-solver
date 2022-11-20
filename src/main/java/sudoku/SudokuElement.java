@@ -1,13 +1,11 @@
 package sudoku;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 
 public abstract class SudokuElement {
 
@@ -41,18 +39,26 @@ public abstract class SudokuElement {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         SudokuElement element = (SudokuElement) o;
 
-        return new EqualsBuilder().append(fields, element.fields).isEquals();
+        return new EqualsBuilder()
+                .append(fields, element.fields)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(fields).toHashCode();
+        return new HashCodeBuilder(17, 37)
+                .append(fields)
+                .toHashCode();
     }
 
     @Override

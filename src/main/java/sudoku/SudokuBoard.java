@@ -1,12 +1,10 @@
 package sudoku;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class SudokuBoard {
     
@@ -119,16 +117,26 @@ public class SudokuBoard {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
-        if (!(o instanceof SudokuBoard that)) return false;
+        if (!(o instanceof SudokuBoard that)) {
+            return false;
+        }
 
-        return new EqualsBuilder().append(getBoard(), that.getBoard()).append(solver, that.solver).isEquals();
+        return new EqualsBuilder()
+                .append(getBoard(), that.getBoard())
+                .append(solver, that.solver)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(getBoard()).append(solver).toHashCode();
+        return new HashCodeBuilder(17, 37)
+                .append(getBoard())
+                .append(solver)
+                .toHashCode();
     }
 
     @Override
