@@ -1,0 +1,41 @@
+package sudoku;
+
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class FileSudokuBoardDaoTest {
+
+    @Test
+    void FileSudokuBoardDao_WriteAndReadTest(){
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        FileSudokuBoardFactory factory = new FileSudokuBoardFactory();
+        Dao<SudokuBoard> fileSBD = factory.getFileDao("file.txt");
+        fileSBD.write(sudokuBoard);
+        SudokuBoard sudokuBoard1 = fileSBD.read();
+
+        for(int i = 0; i < 9 ; i++){
+            for (int j = 0; j <9; j++){
+                assertEquals(sudokuBoard1.get(i,j), sudokuBoard.get(i,j));
+            }
+        }
+
+    }
+    @Test
+    void FileSudokuBoardDao_CloseTest(){
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        FileSudokuBoardFactory factory = new FileSudokuBoardFactory();
+        Dao<SudokuBoard> fileSBD = factory.getFileDao("file.txt");
+        fileSBD.write(sudokuBoard);
+        SudokuBoard sudokuBoard1 = fileSBD.read();
+
+        try {
+            fileSBD.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}
