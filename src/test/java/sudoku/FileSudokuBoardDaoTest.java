@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FileSudokuBoardDaoTest {
+public class FileSudokuBoardDaoTest implements AutoCloseable{
 
     @Test
     void FileSudokuBoardDao_WriteAndReadTest() {
@@ -48,5 +48,10 @@ public class FileSudokuBoardDaoTest {
         FileSudokuBoardFactory factory = new FileSudokuBoardFactory();
         Dao<SudokuBoard> fileSBD = factory.getFileDao(".");
         fileSBD.read();
+    }
+
+    @Override
+    public void close() throws Exception {
+
     }
 }
