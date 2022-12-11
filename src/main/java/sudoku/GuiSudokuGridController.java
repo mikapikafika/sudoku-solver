@@ -5,15 +5,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
-public class SudokuGridWindow {
+public class GuiSudokuGridController {
 
     @FXML
     private GridPane sudokuGrid = new GridPane();
-    private SudokuBoard sudokuBoard;
+    private SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+    private EmptyFieldsDependingOnLevel emptyFieldsDependingOnLevel = new EmptyFieldsDependingOnLevel();
 
-    public void initializeStartingGrid() {
-        sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+    public void initialize() {
         sudokuBoard.solveGame();
+        emptyFieldsDependingOnLevel.readyBoard(sudokuBoard, GuiChooseLevelController.getLevel());
         fill();
     }
 
@@ -21,9 +22,12 @@ public class SudokuGridWindow {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 TextField textField = new TextField();
+                if (sudokuBoard.get(i,j) != 0) {
+                    textField.setDisable(true);
+                    textField.setText(String.valueOf(sudokuBoard.get(i, j)));
+                }
                 textField.setMinSize(50, 50);
                 textField.setFont(Font.font(18));
-                textField.setText(String.valueOf(sudokuBoard.get(i, j)));
                 sudokuGrid.add(textField, j, i);
             }
         }

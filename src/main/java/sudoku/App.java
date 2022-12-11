@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        SetupStage.buildStarting(primaryStage, "choosingLevel.fxml", "Sudoku Game");
+        GuiStageSetup.buildStage(primaryStage, "choosingLevel.fxml", "Sudoku Game");
     }
 
     public static void main(String[] args) {
