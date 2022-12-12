@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SudokuBoardCloneTest {
+class SudokuBoardRepositoryTest {
 
     @Test
     void cloneBoardTest() throws CloneNotSupportedException {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-        SudokuBoardClone sudokuBoardClone = new SudokuBoardClone();
-        SudokuBoard secondSudokuBoard = sudokuBoardClone.cloneBoard(sudokuBoard);
+        SudokuBoardRepository sudokuBoardRepository = new SudokuBoardRepository(sudokuBoard);
+        SudokuBoard secondSudokuBoard = sudokuBoardRepository.createInstance();
 
         assertTrue(secondSudokuBoard.equals(sudokuBoard) && sudokuBoard.equals(secondSudokuBoard));
 

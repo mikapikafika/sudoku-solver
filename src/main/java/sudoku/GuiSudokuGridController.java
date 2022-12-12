@@ -10,7 +10,8 @@ public class GuiSudokuGridController {
     @FXML
     private GridPane sudokuGrid = new GridPane();
     private SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-    private EmptyFieldsDependingOnLevel emptyFieldsDependingOnLevel = new EmptyFieldsDependingOnLevel();
+    private EmptyFieldsDependingOnLevel emptyFieldsDependingOnLevel
+            = new EmptyFieldsDependingOnLevel();
 
     public void initialize() {
         sudokuBoard.solveGame();
