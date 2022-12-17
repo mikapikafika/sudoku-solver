@@ -3,6 +3,8 @@ package sudoku;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -232,6 +234,33 @@ class SudokuElementTest {
         SudokuElement column = new SudokuColumn();
         String testString = column.toString();
         assertEquals(testString, column.toString());
+    }
+
+    @Test
+    void cloneTest() {
+        SudokuRow sudokuRow = new SudokuRow();
+        SudokuColumn sudokuColumn = new SudokuColumn();
+        SudokuBox sudokuBox  = new SudokuBox();
+        SudokuField field = new SudokuField();
+        for (int i = 1; i <= 9; i++){
+            field.setFieldValue(i);
+            sudokuRow.setFieldInElement(i - 1, field);
+            sudokuColumn.setFieldInElement(i - 1, field);
+            sudokuBox.setFieldInElement(i - 1, field);
+        }
+        SudokuRow cloneSudokuRow = (SudokuRow) sudokuRow.clone();
+        SudokuColumn cloneSudokuColumn = (SudokuColumn) sudokuColumn.clone();
+        SudokuBox cloneSudokuBox = (SudokuBox) sudokuBox.clone();
+
+        assertTrue(cloneSudokuRow.equals(sudokuRow) && sudokuRow.equals(cloneSudokuRow));
+        assertTrue(cloneSudokuColumn.equals(sudokuColumn) && sudokuColumn.equals(cloneSudokuColumn));
+        assertTrue(cloneSudokuBox.equals(sudokuBox) && sudokuBox.equals(cloneSudokuBox));
+
+        field.setFieldValue(9);
+        sudokuRow.setFieldInElement(0, field);
+        sudokuColumn.setFieldInElement(0, field);
+        sudokuBox.setFieldInElement(0, field);
+
     }
 
 

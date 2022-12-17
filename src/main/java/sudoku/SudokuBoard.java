@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class SudokuBoard implements Serializable {
+public class SudokuBoard implements Serializable, Cloneable {
     
     private final List<List<SudokuField>> board;
     private final SudokuSolver solver;
@@ -122,10 +122,11 @@ public class SudokuBoard implements Serializable {
             return true;
         }
 
-        if (!(o instanceof SudokuBoard that)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
+        SudokuBoard that = (SudokuBoard) o;
         return new EqualsBuilder()
                 .append(getBoard(), that.getBoard())
                 .append(solver, that.solver)
@@ -146,5 +147,17 @@ public class SudokuBoard implements Serializable {
                 .append("board", board)
                 .append("solver", solver)
                 .toString();
+    }
+
+    @Override
+    public SudokuBoard clone() {
+        SudokuBoard sudokuBoard = new SudokuBoard(this.solver);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                sudokuBoard.set(i, j, get(i, j));
+            }
+        }
+
+        return sudokuBoard;
     }
 }

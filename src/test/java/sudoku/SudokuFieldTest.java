@@ -38,4 +38,39 @@ public class SudokuFieldTest {
 
         assertFalse(field1.equals(sudokuBoard));
     }
+
+    @Test
+    public void cloneTest() throws CloneNotSupportedException {
+
+        SudokuField sudokuField = new SudokuField();
+        SudokuField cloneField = (SudokuField) sudokuField.clone();
+
+        assertTrue(cloneField.equals(sudokuField) && sudokuField.equals(cloneField));
+
+        sudokuField.setFieldValue(5);
+
+        assertFalse(cloneField.equals(sudokuField) && sudokuField.equals(cloneField));
+    }
+    @Test
+    public void compareToTest() throws NullPointerException {
+        SudokuField sudokuField = new SudokuField();
+        SudokuField sudokuFieldToCompare = new SudokuField();
+
+        sudokuField.setFieldValue(7);
+        sudokuFieldToCompare.setFieldValue(7);
+        assertEquals(sudokuField.compareTo(sudokuFieldToCompare), 0);
+
+
+        sudokuFieldToCompare.setFieldValue(3);
+        assertEquals(sudokuField.compareTo(sudokuFieldToCompare), 1);
+
+        sudokuFieldToCompare.setFieldValue(9);
+        assertEquals(sudokuField.compareTo(sudokuFieldToCompare), -1);
+
+        try{
+            sudokuField.compareTo(null);
+        } catch (NullPointerException e){
+            System.out.println("Catched Null Pointer Exception");
+        }
+    }
 }

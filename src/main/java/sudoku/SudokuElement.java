@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public abstract class SudokuElement {
+public abstract class SudokuElement implements Cloneable {
 
     private final List<SudokuField> fields = Arrays.asList(new SudokuField[9]);
 
@@ -67,5 +67,7 @@ public abstract class SudokuElement {
                 .append("fields", fields)
                 .toString();
     }
+
+
 }
 
