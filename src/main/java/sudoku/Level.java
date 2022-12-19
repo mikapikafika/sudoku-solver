@@ -5,13 +5,9 @@ public enum Level {
     MEDIUM(30),
     HARD(40);
 
-    final int howManyFields;
+    public final int fields;
 
-    Level(int fieldsNumber) {
-        this.howManyFields = fieldsNumber;
-    }
-
-    public int howManyFieldsDelete() {
-        return howManyFields;
+    Level(int fields) {
+        this.fields = fields;
     }
 }

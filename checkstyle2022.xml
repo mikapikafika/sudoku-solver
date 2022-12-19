@@ -9,7 +9,7 @@
    Checkstyle is very configurable. Be sure to read the documentation at
    http://checkstyle.sf.net (or in your downloaded distribution).
    To completely disable a check, just comment it out or delete it from the file.
-   Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
+   Authors_PL: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
 -->
 
 <module name = "Checker">
@@ -235,7 +235,7 @@
         <module name="JavadocMethod">
             <property name="accessModifiers" value="public"/>
             <property name="allowMissingParamTags" value="false"/>
-            <property name="validateThrows" value="true"/>
+            <!--><property name="validateThrows" value="true"/><!-->
             <property name="allowMissingReturnTag" value="false"/>
             <property name="allowedAnnotations" value="Override, Test"/>
         </module>
