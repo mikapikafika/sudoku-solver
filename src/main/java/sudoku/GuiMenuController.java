@@ -104,7 +104,7 @@ public class GuiMenuController {
         }
     }
 
-    public void pressedAuthorsButton() throws GuiException {
+    public void pressedAuthorsButton() {
         if (bundle.getString("Button_Authors").equals("Autorzy")) {
             Authors_PL authorsPL = new Authors_PL();
             PopOutWindow popOutWindow = new PopOutWindow();

@@ -22,14 +22,6 @@ public class BundleManager {
         return INSTANCE;
     }
 
-    public void setBundle(ResourceBundle bundle) {
-        this.bundle = bundle;
-    }
-
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
-
     public ResourceBundle getBundle() {
         return bundle;
     }

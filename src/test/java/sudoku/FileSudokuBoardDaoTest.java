@@ -5,7 +5,7 @@ import sudoku.exceptions.DaoException;
 import sudoku.exceptions.GetValueException;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FileSudokuBoardDaoTest implements AutoCloseable{
+public class FileSudokuBoardDaoTest implements AutoCloseable {
 
     @Test
     void FileSudokuBoardDao_WriteAndReadTest() throws DaoException, GetValueException {
@@ -49,7 +49,7 @@ public class FileSudokuBoardDaoTest implements AutoCloseable{
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
 
     }
 }

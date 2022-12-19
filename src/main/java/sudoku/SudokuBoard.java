@@ -73,7 +73,7 @@ public class SudokuBoard implements Serializable, Cloneable {
      * Check's if the board is correctly solved.
      * @return true if the board is correct
      */
-    public boolean checkBoard() throws GetElementException {
+    private boolean checkBoard() throws GetElementException {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {

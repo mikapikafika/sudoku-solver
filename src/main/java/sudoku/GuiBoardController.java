@@ -16,11 +16,11 @@ import sudoku.exceptions.GuiBuilderException;
 import sudoku.exceptions.SetValueException;
 
 public class GuiBoardController {
-
     @FXML
     private GridPane sudokuGrid = new GridPane();
     private SudokuSolver solver = new BacktrackingSudokuSolver();
     private SudokuBoard sudokuBoard = new SudokuBoard(solver);
+    private SudokuBoard originalBoard;
     private SudokuBoard loadedSudokuBoard;
     private LevelEmptyFields levelEmptyFields = new LevelEmptyFields();
     private FileSudokuBoardDao fileSudokuBoardDao;
@@ -29,9 +29,11 @@ public class GuiBoardController {
     public void initialize() throws SetValueException, GetElementException, GetValueException {
         if (GuiMenuController.getLoadedSudokuBoard() != null) {
             loadedSudokuBoard = GuiMenuController.getLoadedSudokuBoard();
+            originalBoard = loadedSudokuBoard.clone();
             sudokuBoard = loadedSudokuBoard;
         } else {
             sudokuBoard.solveGame();
+            originalBoard = sudokuBoard.clone();
             levelEmptyFields.readyBoard(sudokuBoard, GuiMenuController.getLevel());
         }
         fill();
@@ -83,7 +85,7 @@ public class GuiBoardController {
         return isValid;
     }
 
-    public void pressedCheckButton() throws SetValueException, GetElementException {
+    public void pressedCheckButton() throws SetValueException {
         if (!isBoardValid()) {
             PopOutWindow popOutWindow = new PopOutWindow();
             popOutWindow.messageBox("", bundle.getString("Board_Invalid"),
@@ -91,12 +93,11 @@ public class GuiBoardController {
             return;
         }
         updateBoard();
-        if (sudokuBoard.checkBoard()) {
-            PopOutWindow popOutWindow = new PopOutWindow();
+        PopOutWindow popOutWindow = new PopOutWindow();
+        if (sudokuBoard.equals(originalBoard)) {
             popOutWindow.messageBox("", bundle.getString("Board_Check_Correct"),
                     Alert.AlertType.INFORMATION);
         } else {
-            PopOutWindow popOutWindow = new PopOutWindow();
             popOutWindow.messageBox("", bundle.getString("Board_Check_Incorrect"),
                     Alert.AlertType.INFORMATION);
         }
