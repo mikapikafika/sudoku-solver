@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import sudoku.exceptions.GetElementException;
 import sudoku.exceptions.GetValueException;
 import sudoku.exceptions.SetValueException;
+import sudoku.repo.SudokuBoardRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,6 +1,5 @@
 package sudoku;
 
-import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -10,7 +9,7 @@ public class App extends Application {
     private ResourceBundle bundle = ResourceBundle.getBundle("Language");
 
     @Override
-    public void start(Stage primaryStage) throws IOException, GuiBuilderException {
+    public void start(Stage primaryStage) throws GuiBuilderException {
         GuiStageSetup.buildStage(primaryStage, "choosingLevel.fxml", "Sudoku", bundle);
     }
 

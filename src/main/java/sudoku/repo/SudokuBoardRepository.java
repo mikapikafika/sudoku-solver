@@ -1,4 +1,6 @@
-package sudoku;
+package sudoku.repo;
+
+import sudoku.SudokuBoard;
 
 public class SudokuBoardRepository implements Repository<SudokuBoard> {
 

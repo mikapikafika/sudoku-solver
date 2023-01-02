@@ -8,6 +8,9 @@ import javafx.stage.FileChooser;
 import sudoku.exceptions.DaoException;
 import sudoku.exceptions.GuiBuilderException;
 import sudoku.exceptions.GuiException;
+import sudoku.lang.Authors_EN;
+import sudoku.lang.Authors_PL;
+import sudoku.lang.BundleManager;
 
 public class GuiMenuController {
 
@@ -108,7 +111,7 @@ public class GuiMenuController {
         if (bundle.getString("Button_Authors").equals("Autorzy")) {
             Authors_PL authorsPL = new Authors_PL();
             PopOutWindow popOutWindow = new PopOutWindow();
-            popOutWindow.messageBox("Authorzy", (authorsPL.getObject("1")
+            popOutWindow.messageBox("Autorzy", (authorsPL.getObject("1")
                             + "\n" + (authorsPL.getObject("2"))),
                     Alert.AlertType.INFORMATION);
         } else {

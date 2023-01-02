@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import sudoku.exceptions.GetElementException;
 import sudoku.exceptions.GetValueException;
 import sudoku.exceptions.SetValueException;
+import sudoku.lang.BundleManager;
 
 public class SudokuBoard implements Serializable, Cloneable {
     
