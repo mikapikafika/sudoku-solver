@@ -3,12 +3,15 @@ package sudoku;
 import org.junit.jupiter.api.Test;
 import sudoku.exceptions.DaoException;
 import sudoku.exceptions.GetValueException;
+
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FileSudokuBoardDaoTest implements AutoCloseable {
 
     @Test
-    void FileSudokuBoardDao_WriteAndReadTest() throws DaoException, GetValueException {
+    void FileSudokuBoardDao_WriteAndReadTest() throws DaoException, GetValueException, SQLException {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         FileSudokuBoardFactory factory = new FileSudokuBoardFactory();
         Dao<SudokuBoard> fileSBD = factory.getFileDao("file.txt");
@@ -20,7 +23,7 @@ public class FileSudokuBoardDaoTest implements AutoCloseable {
     }
 
     @Test
-    void FileSudokuBoardDao_CloseTest() throws DaoException {
+    void FileSudokuBoardDao_CloseTest() throws DaoException, SQLException {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         FileSudokuBoardFactory factory = new FileSudokuBoardFactory();
         Dao<SudokuBoard> fileSBD = factory.getFileDao("file.txt");
