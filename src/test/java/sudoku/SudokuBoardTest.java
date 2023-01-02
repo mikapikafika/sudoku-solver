@@ -1,6 +1,10 @@
 package sudoku;
 
 import org.junit.jupiter.api.Test;
+import sudoku.exceptions.GetElementException;
+import sudoku.exceptions.GetValueException;
+import sudoku.exceptions.SetValueException;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -10,7 +14,7 @@ class SudokuBoardTest {
 
     // Tests if two sudoku boards are different.
     @Test
-    void differentBoardsTest() {
+    void differentBoardsTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoardTest1 = new SudokuBoard(solver);
         int [][] savedBoardTest = sudokuBoardTest1.getBoard();
@@ -22,7 +26,7 @@ class SudokuBoardTest {
 
     // Tests if the numbers are in range.
     @Test
-    void sudokuRulesTestRange() {
+    void sudokuRulesTestRange() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
@@ -38,7 +42,7 @@ class SudokuBoardTest {
     // Methods tests:
 
     @Test
-    void getTest() {
+    void getTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
@@ -48,7 +52,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void setTest() {
+    void setTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
@@ -57,23 +61,21 @@ class SudokuBoardTest {
 
         assertEquals(sudokuBoard.get(1,1),0);
 
-        assertFalse(sudokuBoard.set(9,1,9));
-        assertFalse(sudokuBoard.set(-1,1,9));
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(9,1,9));
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(-1,1,9));
 
-        assertFalse(sudokuBoard.set(1,9,9));
-        assertFalse(sudokuBoard.set(1,-1,9));
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(1,9,9));
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(1,-1,9));
 
-        assertFalse(sudokuBoard.set(9,9,9));
-        assertFalse(sudokuBoard.set(-1,-1,9));
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(9,9,9));
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(-1,-1,9));
 
-        assertTrue(sudokuBoard.set(1,1,9));
-        assertEquals(sudokuBoard.get(1,1),9);
     }
 
     // checkBoard tests:
 
     @Test
-    void checkBoardTest() {
+    void checkBoardTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
@@ -90,7 +92,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void checkBoardIncorrectDueToRepetitionInRowTest() {
+    void checkBoardIncorrectDueToRepetitionInRowTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
@@ -113,7 +115,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void checkBoardIncorrectDueToRepetitionInColTest() {
+    void checkBoardIncorrectDueToRepetitionInColTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
@@ -136,7 +138,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void checkBoardIncorrectDueToRepetitionInBoxTest() {
+    void checkBoardIncorrectDueToRepetitionInBoxTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
@@ -159,7 +161,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void checkBoardIncorrectDueToRepetitionInColBoxTest() {
+    void checkBoardIncorrectDueToRepetitionInColBoxTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
@@ -183,7 +185,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void checkBoardIncorrectDueToRepetitionInRowBoxTest() {
+    void checkBoardIncorrectDueToRepetitionInRowBoxTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
@@ -206,7 +208,7 @@ class SudokuBoardTest {
         }
     }
     @Test
-    void checkBoardIncorrectDueToRepetitionInRowColTest() {
+    void checkBoardIncorrectDueToRepetitionInRowColTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
@@ -232,7 +234,7 @@ class SudokuBoardTest {
     // equals tests:
 
     @Test
-    void equalsExactlyTheSameObjectTest() {
+    void equalsExactlyTheSameObjectTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
         sudokuBoard.solveGame();
@@ -250,7 +252,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void equalsNotTheSameObjectsTest() {
+    void equalsNotTheSameObjectsTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
         sudokuBoard.solveGame();
@@ -261,7 +263,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void equalsDifferentObjectsTest() {
+    void equalsDifferentObjectsTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
         sudokuBoard.solveGame();
@@ -283,7 +285,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void hashCodeDifferentTest() {
+    void hashCodeDifferentTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
         sudokuBoard.solveGame();
@@ -306,7 +308,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void equalsFalseHashCodeFalseTest() {
+    void equalsFalseHashCodeFalseTest() throws SetValueException, GetElementException, GetValueException {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
         sudokuBoard.solveGame();
@@ -329,7 +331,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    public void cloneTest() throws CloneNotSupportedException {
+    public void cloneTest() throws SetValueException, GetElementException, GetValueException {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuBoard cloneBoard = (SudokuBoard) sudokuBoard.clone();
 
@@ -340,5 +342,63 @@ class SudokuBoardTest {
         assertFalse(cloneBoard.equals(sudokuBoard) && sudokuBoard.equals(cloneBoard));
 
     }
+
+    @Test
+    public void getColumnExceptionThrow() throws SetValueException, GetElementException, GetValueException {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudokuBoard.solveGame();
+        assertThrows(GetElementException.class, () -> sudokuBoard.getColumn(9));
+        assertThrows(GetElementException.class, () -> sudokuBoard.getColumn(-9));
+    }
+
+    @Test
+    public void getRowExceptionThrow() throws SetValueException, GetElementException, GetValueException {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudokuBoard.solveGame();
+        assertThrows(GetElementException.class, () -> sudokuBoard.getRow(9));
+        assertThrows(GetElementException.class, () -> sudokuBoard.getRow(-9));
+    }
+
+    @Test
+    public void getBoxExceptionThrow() throws SetValueException, GetElementException, GetValueException {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudokuBoard.solveGame();
+        assertThrows(GetElementException.class, () -> sudokuBoard.getBox(9,1));
+        assertThrows(GetElementException.class, () -> sudokuBoard.getBox(1,9));
+
+        assertThrows(GetElementException.class, () -> sudokuBoard.getBox(1,-1));
+        assertThrows(GetElementException.class, () -> sudokuBoard.getBox(-1,1));
+
+        assertThrows(GetElementException.class, () -> sudokuBoard.getBox(-1,-1));
+        assertThrows(GetElementException.class, () -> sudokuBoard.getBox(9,9));
+    }
+
+    @Test
+    public void getExceptionThrow() throws SetValueException, GetElementException, GetValueException {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudokuBoard.solveGame();
+        assertThrows(GetValueException.class, () -> sudokuBoard.get(9,1));
+        assertThrows(GetValueException.class, () -> sudokuBoard.get(1,9));
+
+        assertThrows(GetValueException.class, () -> sudokuBoard.get(1,-1));
+        assertThrows(GetValueException.class, () -> sudokuBoard.get(-1,1));
+
+        assertThrows(GetValueException.class, () -> sudokuBoard.get(-1,-1));
+        assertThrows(GetValueException.class, () -> sudokuBoard.get(9,9));
+    }
+    @Test
+    public void setExceptionThrow() throws SetValueException, GetElementException, GetValueException {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudokuBoard.solveGame();
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(9,1,1));
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(1,9,1));
+
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(1,-1,1));
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(-1,1,1));
+
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(-1,-1,1));
+        assertThrows(SetValueException.class, () -> sudokuBoard.set(9,9,1));
+    }
+
 }
 

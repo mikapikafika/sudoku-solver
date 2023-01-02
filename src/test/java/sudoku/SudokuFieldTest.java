@@ -1,6 +1,7 @@
 package sudoku;
 
 import org.junit.jupiter.api.Test;
+import sudoku.exceptions.SetValueException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,15 +63,11 @@ public class SudokuFieldTest {
 
 
         sudokuFieldToCompare.setFieldValue(3);
-        assertEquals(sudokuField.compareTo(sudokuFieldToCompare), 1);
+        assertTrue(sudokuField.compareTo(sudokuFieldToCompare) > 0);
 
         sudokuFieldToCompare.setFieldValue(9);
-        assertEquals(sudokuField.compareTo(sudokuFieldToCompare), -1);
+        assertTrue(sudokuField.compareTo(sudokuFieldToCompare) < 0);
 
-        try{
-            sudokuField.compareTo(null);
-        } catch (NullPointerException e){
-            System.out.println("Catched Null Pointer Exception");
-        }
+        assertThrows(NullPointerException.class, () -> sudokuField.compareTo(null));
     }
 }
