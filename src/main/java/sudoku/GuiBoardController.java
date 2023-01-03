@@ -24,7 +24,7 @@ public class GuiBoardController {
     private SudokuBoard loadedSudokuBoard;
     private LevelEmptyFields levelEmptyFields = new LevelEmptyFields();
     private FileSudokuBoardDao fileSudokuBoardDao;
-    private ResourceBundle bundle = ResourceBundle.getBundle("Language");
+    private ResourceBundle bundle = ResourceBundle.getBundle("Gui");
 
     public void initialize() throws SetValueException, GetElementException, GetValueException {
         if (GuiMenuController.getLoadedSudokuBoard() != null) {

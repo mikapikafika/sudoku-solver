@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import sudoku.exceptions.GuiBuilderException;
 
 public class App extends Application {
-    private ResourceBundle bundle = ResourceBundle.getBundle("Language");
+    private ResourceBundle bundle = ResourceBundle.getBundle("Gui");
 
     @Override
     public void start(Stage primaryStage) throws GuiBuilderException {

@@ -39,7 +39,7 @@ public class SudokuBoard implements Serializable, Cloneable {
             logger.info(BundleManager
                     .getInstance()
                     .getBundle()
-                    .getString("Exception"),
+                    .getString("SudokuException"),
                     new GetValueException(BundleManager
                             .getInstance()
                             .getBundle()
@@ -57,7 +57,7 @@ public class SudokuBoard implements Serializable, Cloneable {
             logger.info(BundleManager
                     .getInstance()
                     .getBundle()
-                    .getString("Exception"),
+                    .getString("SudokuException"),
                     new SetValueException(BundleManager
                             .getInstance()
                             .getBundle()
@@ -96,7 +96,7 @@ public class SudokuBoard implements Serializable, Cloneable {
             logger.info(BundleManager
                     .getInstance()
                     .getBundle()
-                    .getString("Exception"),
+                    .getString("SudokuException"),
                     new GetElementException(BundleManager
                             .getInstance()
                             .getBundle()
@@ -126,7 +126,7 @@ public class SudokuBoard implements Serializable, Cloneable {
             logger.info(BundleManager
                     .getInstance()
                     .getBundle()
-                    .getString("Exception"),
+                    .getString("SudokuException"),
                     new GetElementException(BundleManager
                             .getInstance()
                             .getBundle()
@@ -150,7 +150,7 @@ public class SudokuBoard implements Serializable, Cloneable {
             logger.info(BundleManager
                     .getInstance()
                     .getBundle()
-                    .getString("Exception"),
+                    .getString("SudokuException"),
                     new GetElementException(BundleManager
                             .getInstance()
                             .getBundle()

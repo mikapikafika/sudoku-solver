@@ -12,6 +12,6 @@ public interface JdbcDao<T> extends AutoCloseable {
     void delete(String name) throws DaoException, SQLException;
 
     T get(String name) throws DaoException, SQLException;
-    ArrayList<String> getAll() throws SQLException;
+    ArrayList<String> getAll() throws SQLException, DaoException;
     Boolean alreadyExists(String name) throws DaoException, SQLException;
 }

@@ -30,7 +30,7 @@ public class GuiStageSetup {
             logger.info(BundleManager
                     .getInstance()
                     .getBundle()
-                    .getString("Exception"),
+                    .getString("SudokuException"),
                     new GuiBuilderException(BundleManager
                             .getInstance()
                             .getBundle()

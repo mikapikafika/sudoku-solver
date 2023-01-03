@@ -7,7 +7,7 @@ public class BundleManager {
 
     private static BundleManager INSTANCE;
     private Locale locale = new Locale("pl");
-    private ResourceBundle bundle = ResourceBundle.getBundle("file", locale);
+    private ResourceBundle bundle = ResourceBundle.getBundle("Exceptions", locale);
 
     public BundleManager() {
 

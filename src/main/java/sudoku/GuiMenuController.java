@@ -15,7 +15,7 @@ import sudoku.lang.BundleManager;
 public class GuiMenuController {
 
     private static Level level;
-    private ResourceBundle bundle = ResourceBundle.getBundle("Language");
+    private ResourceBundle bundle = ResourceBundle.getBundle("Gui");
     private FileSudokuBoardDao fileSudokuBoardDao;
     private static SudokuBoard loadedSudokuBoard = null;
 
@@ -68,7 +68,7 @@ public class GuiMenuController {
     public void pressedPolishLanguageButton() throws GuiException {
         try {
             Locale.setDefault(new Locale("pl"));
-            bundle = ResourceBundle.getBundle("Language");
+            bundle = ResourceBundle.getBundle("Gui");
             GuiStageSetup.buildStage("choosingLevel.fxml", bundle);
         } catch (IOException | GuiBuilderException e) {
             throw new GuiException(BundleManager
@@ -81,7 +81,7 @@ public class GuiMenuController {
     public void pressedEnglishLanguageButton() throws GuiException {
         try {
             Locale.setDefault(new Locale("en"));
-            bundle = ResourceBundle.getBundle("Language");
+            bundle = ResourceBundle.getBundle("Gui");
             GuiStageSetup.buildStage("choosingLevel.fxml", bundle);
         } catch (IOException | GuiBuilderException e) {
             throw new GuiException(BundleManager

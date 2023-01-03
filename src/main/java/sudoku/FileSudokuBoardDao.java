@@ -30,7 +30,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
             logger.info(BundleManager
                             .getInstance()
                             .getBundle()
-                            .getString("Exception"),
+                            .getString("SudokuException"),
                     new DaoException(BundleManager
                             .getInstance()
                             .getBundle()
@@ -53,7 +53,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
             logger.info(BundleManager
                             .getInstance()
                             .getBundle()
-                            .getString("Exception"),
+                            .getString("SudokuException"),
                     new DaoException(BundleManager
                             .getInstance()
                             .getBundle()
