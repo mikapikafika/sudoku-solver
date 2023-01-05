@@ -9,9 +9,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.exceptions.GetElementException;
-import sudoku.exceptions.GetValueException;
-import sudoku.exceptions.SetValueException;
+import sudoku.exceptions.*;
 import sudoku.lang.BundleManager;
 
 public class SudokuBoard implements Serializable, Cloneable {
@@ -232,7 +230,7 @@ public class SudokuBoard implements Serializable, Cloneable {
     }
 
     @Override
-    public SudokuBoard clone() {
+    public SudokuBoard clone() throws CloneNotSupportedException {
         SudokuBoard clonedSudokuBoard = new SudokuBoard(this.solver);
         try {
             for (int i = 0; i < 9; i++) {
@@ -243,7 +241,10 @@ public class SudokuBoard implements Serializable, Cloneable {
 
             }
         } catch (SetValueException e) {
-            throw new RuntimeException(e);
+            throw new CloneException((BundleManager
+                    .getInstance()
+                    .getBundle()
+                    .getString("CloneException")));
         }
 
         return clonedSudokuBoard;

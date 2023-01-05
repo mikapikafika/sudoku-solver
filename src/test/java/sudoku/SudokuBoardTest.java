@@ -331,7 +331,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    public void cloneTest() throws SetValueException, GetElementException, GetValueException {
+    public void cloneTest() throws SetValueException, GetElementException, GetValueException, CloneNotSupportedException {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuBoard cloneBoard = (SudokuBoard) sudokuBoard.clone();
 

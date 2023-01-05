@@ -11,7 +11,7 @@ public class SudokuBoardRepository implements Repository<SudokuBoard> {
     }
 
     @Override
-    public SudokuBoard createInstance() {
+    public SudokuBoard createInstance() throws CloneNotSupportedException {
         return sudokuBoard.clone();
     }
 }

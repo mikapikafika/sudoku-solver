@@ -4,6 +4,9 @@ import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import sudoku.exceptions.DaoException;
+import sudoku.exceptions.NullException;
+import sudoku.lang.BundleManager;
 
 
 public class SudokuField implements Serializable, Cloneable, Comparable<SudokuField> {
@@ -57,7 +60,10 @@ public class SudokuField implements Serializable, Cloneable, Comparable<SudokuFi
     @Override
     public int compareTo(SudokuField o) throws NullPointerException {
         if (o == null) {
-            throw new NullPointerException();
+            throw new NullException(BundleManager
+                    .getInstance()
+                    .getBundle()
+                    .getString("NullException"));
         } else if (this.getFieldValue() == o.getFieldValue()) {
             return 0;
         } else if (this.getFieldValue() > o.getFieldValue()) {

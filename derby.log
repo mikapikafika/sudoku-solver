@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Thu Jan 05 13:07:33 CET 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-0185-81d4-51fb-00000e899148 
+on database directory C:\Users\DMM\Desktop\Sudoku\mka_pn_1400_02\boardsDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@6f94fa3e 
+Loaded from file:/C:/Users/DMM/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=17.0.3.1+2-LTS-6
+user.dir=C:\Users\DMM\Desktop\Sudoku\mka_pn_1400_02
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

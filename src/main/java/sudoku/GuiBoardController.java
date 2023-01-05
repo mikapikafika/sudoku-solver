@@ -9,11 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
-import sudoku.exceptions.DaoException;
-import sudoku.exceptions.GetElementException;
-import sudoku.exceptions.GetValueException;
-import sudoku.exceptions.GuiBuilderException;
-import sudoku.exceptions.SetValueException;
+import sudoku.exceptions.*;
+import sudoku.lang.BundleManager;
 
 public class GuiBoardController {
     @FXML
@@ -26,7 +23,7 @@ public class GuiBoardController {
     private FileSudokuBoardDao fileSudokuBoardDao;
     private ResourceBundle bundle = ResourceBundle.getBundle("Gui");
 
-    public void initialize() throws SetValueException, GetElementException, GetValueException {
+    public void initialize() throws SetValueException, GetElementException, GetValueException, CloneNotSupportedException {
         if (GuiMenuController.getLoadedSudokuBoard() != null) {
             loadedSudokuBoard = GuiMenuController.getLoadedSudokuBoard();
             originalBoard = loadedSudokuBoard.clone();
@@ -113,7 +110,10 @@ public class GuiBoardController {
             fileSudokuBoardDao = new FileSudokuBoardDao(file.getAbsolutePath());
             fileSudokuBoardDao.write(sudokuBoard);
         } catch (NullPointerException e) {
-            throw new RuntimeException();
+            throw new NullException(BundleManager
+                    .getInstance()
+                    .getBundle()
+                    .getString("NullException"));
         }
     }
 }

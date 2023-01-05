@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SudokuBoardCloneTest {
 
     @Test
-    void cloneBoardTest() throws SetValueException, GetElementException, GetValueException {
+    void cloneBoardTest() throws SetValueException, GetElementException, GetValueException, CloneNotSupportedException {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuBoardRepository sudokuBoardRepository = new SudokuBoardRepository(sudokuBoard);
         SudokuBoard secondSudokuBoard = sudokuBoardRepository.createInstance();
