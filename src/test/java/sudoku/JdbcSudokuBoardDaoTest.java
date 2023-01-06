@@ -6,7 +6,7 @@ import sudoku.exceptions.JdbcErrorException;
 import sudoku.exceptions.JdbcObjInDatabaseException;
 import sudoku.lang.BundleManager;
 
-public class JdbcSudokuBoardDaoTest{
+public class JdbcSudokuBoardDaoTest implements AutoCloseable{
 
     SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
 
@@ -34,7 +34,7 @@ public class JdbcSudokuBoardDaoTest{
         try (JdbcDao<SudokuBoard> jdbcDao = FileSudokuBoardFactory.getJdbcDao()) {
             sudokuBoard.solveGame();
 
-            if (!jdbcDao.alreadyExists("Sudoku")) {
+            if (jdbcDao.alreadyExists("Sudoku")) {
                 jdbcDao.delete("Sudoku");
             }
 
@@ -85,4 +85,7 @@ public class JdbcSudokuBoardDaoTest{
         }
     }
 
+    @Override
+    public void close() throws Exception {
+    }
 }

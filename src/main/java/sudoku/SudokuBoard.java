@@ -9,7 +9,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.exceptions.*;
+import sudoku.exceptions.CloneException;
+import sudoku.exceptions.GetElementException;
+import sudoku.exceptions.GetValueException;
+import sudoku.exceptions.SetValueException;
 import sudoku.lang.BundleManager;
 
 public class SudokuBoard implements Serializable, Cloneable {

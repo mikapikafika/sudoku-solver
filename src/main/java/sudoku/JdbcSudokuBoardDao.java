@@ -1,11 +1,19 @@
 package sudoku;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.exceptions.*;
+import sudoku.exceptions.DaoException;
+import sudoku.exceptions.GetValueException;
+import sudoku.exceptions.JdbcCreationException;
+import sudoku.exceptions.JdbcErrorException;
+import sudoku.exceptions.JdbcObjInDatabaseException;
 import sudoku.lang.BundleManager;
 
 public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, JdbcDao<SudokuBoard>, AutoCloseable {
@@ -37,11 +45,11 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, JdbcDao<SudokuBoard
         // creates table, auto increments
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(
-                    "CREATE TABLE sudoku_boards (" +
-                            "board_ID INT NOT NULL GENERATED ALWAYS AS IDENTITY" +
-                            "(START WITH 1, INCREMENT BY 1)," +
-                            "board_name VARCHAR(40)," +
-                            "PRIMARY KEY (board_ID))");
+                    "CREATE TABLE sudoku_boards ("
+                            + "board_ID INT NOT NULL GENERATED ALWAYS AS IDENTITY"
+                            + "(START WITH 1, INCREMENT BY 1),"
+                            + "board_name VARCHAR(40),"
+                            + "PRIMARY KEY (board_ID))");
             // saves all the modifications
             connection.commit();
         } catch (SQLException e) {
@@ -73,11 +81,11 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, JdbcDao<SudokuBoard
         // creates table, auto increments
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(
-                    "CREATE TABLE board_values (" +
-                            "board_val_id INT REFERENCES sudoku_boards(board_ID), " +
-                            "board_X SMALLINT NOT NULL," +
-                            "board_Y SMALLINT NOT NULL," +
-                            "field_value SMALLINT NOT NULL)");
+                    "CREATE TABLE board_values ("
+                            + "board_val_id INT REFERENCES sudoku_boards(board_ID), "
+                            + "board_X SMALLINT NOT NULL,"
+                            + "board_Y SMALLINT NOT NULL,"
+                            + "field_value SMALLINT NOT NULL)");
             // saves all the modifications
             connection.commit();
         } catch (SQLException e) {
@@ -218,10 +226,10 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, JdbcDao<SudokuBoard
                 int boardID = getBoardID(name);
                 for (int i = 0; i < 9; i++) {
                     for (int j = 0; j < 9; j++) {
-                        try (PreparedStatement preparedStatement = connection.prepareStatement("" +
-                                "INSERT INTO board_values " +
-                                "(board_val_ID, board_X, board_Y, field_value) " +
-                                "VALUES (?, ?, ?, ?)")) {
+                        try (PreparedStatement preparedStatement = connection.prepareStatement(""
+                                + "INSERT INTO board_values "
+                                + "(board_val_ID, board_X, board_Y, field_value) "
+                                + "VALUES (?, ?, ?, ?)")) {
                             preparedStatement.setInt(1,boardID);
                             preparedStatement.setInt(2,i);
                             preparedStatement.setInt(3,j);
@@ -275,10 +283,10 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, JdbcDao<SudokuBoard
         connect();
         int boardID = getBoardID(name);
 
-        try (PreparedStatement preparedStatement1 = connection.prepareStatement("" +
-                "DELETE FROM sudoku_boards WHERE board_ID = ?");
-            PreparedStatement preparedStatement2 = connection.prepareStatement("" +
-                    "DELETE FROM board_values WHERE board_val_ID = ?")) {
+        try (PreparedStatement preparedStatement1 = connection.prepareStatement(""
+                + "DELETE FROM sudoku_boards WHERE board_ID = ?");
+            PreparedStatement preparedStatement2 = connection.prepareStatement(""
+                    + "DELETE FROM board_values WHERE board_val_ID = ?")) {
             preparedStatement1.setInt(1,boardID);
             preparedStatement2.setInt(1,boardID);
             preparedStatement2.executeUpdate();
@@ -310,8 +318,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, JdbcDao<SudokuBoard
         connect();
         int boardID = getBoardID(name);
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement("" +
-                "SELECT * FROM board_values WHERE board_val_ID = ?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(""
+                + "SELECT * FROM board_values WHERE board_val_ID = ?")) {
             preparedStatement.setInt(1,boardID);
 
             SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
@@ -321,11 +329,13 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, JdbcDao<SudokuBoard
 
                 for (int i = 0; i < 9; i++) {
                     for (int j = 0; j < 9; j++) {
-                        sudokuBoard.set(resultSet.getInt(2),resultSet.getInt(3),resultSet.getInt(4));
+                        sudokuBoard.set(resultSet.getInt(2),
+                                resultSet.getInt(3),resultSet.getInt(4));
                         resultSet.next();
                     }
                 }
 
+                connection.commit();
                 return sudokuBoard;
             } catch (Exception e) {
                 logger.error(BundleManager
