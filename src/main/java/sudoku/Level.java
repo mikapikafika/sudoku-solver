@@ -1,7 +1,7 @@
 package sudoku;
 
 public enum Level {
-    EASY(1),
+    EASY(2),
     MEDIUM(30),
     HARD(40);
 

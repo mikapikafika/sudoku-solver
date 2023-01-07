@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -21,6 +22,8 @@ import sudoku.lang.BundleManager;
 public class GuiBoardController {
     @FXML
     private GridPane sudokuGrid = new GridPane();
+    @FXML
+    private Label label = new Label();
     private SudokuSolver solver = new BacktrackingSudokuSolver();
     private SudokuBoard sudokuBoard = new SudokuBoard(solver);
     private SudokuBoard originalBoard;
@@ -44,6 +47,7 @@ public class GuiBoardController {
     }
 
     public void fill() throws GetValueException {
+        label.setText(bundle.getString("Board_Invalid"));
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 TextField textField = new TextField();
@@ -52,7 +56,56 @@ public class GuiBoardController {
                 if (sudokuBoard.get(i,j) != 0) {
                     textField.setDisable(true);
                     textField.setText(String.valueOf(sudokuBoard.get(i, j)));
+                } else {
+                    int writtenI = i;
+                    int writtenJ = j;
+                    textField.textProperty().addListener((observable, oldVal, newVal) -> {
+                        if (newVal.matches("[1-9]")) {
+                            try {
+                                sudokuBoard.set(writtenI,writtenJ,Integer.parseInt(newVal));
+                            } catch (SetValueException e) {
+                                throw new NullException(BundleManager
+                                        .getInstance()
+                                        .getBundle()
+                                        .getString("SetElementException"));
+                            }
+                            if (isBoardValid()){
+                                try {
+                                    if (sudokuBoard.getColumn(writtenI).verify()
+                                            && sudokuBoard.getRow(writtenJ).verify()
+                                            && sudokuBoard.getBox(writtenI,writtenJ).verify()) {
+                                        label.setText(bundle.getString("Board_Check_Correct"));
+                                    } else {
+                                        label.setText(bundle.getString("Board_Check_Incorrect"));
+                                    }
+                                } catch (GetElementException e) {
+                                    throw new NullException(BundleManager
+                                            .getInstance()
+                                            .getBundle()
+                                            .getString("SetElementException"));
+                                }
+                            } else {
+                                label.setText(bundle.getString("Board_Invalid"));
+                            }
+
+                        } else if (newVal.matches("")) {
+                            textField.setText(newVal);
+                            label.setText(bundle.getString("Board_Invalid"));
+                            try {
+                                sudokuBoard.set(writtenI, writtenJ, 0);
+                            } catch (SetValueException e) {
+                                throw new NullException(BundleManager
+                                        .getInstance()
+                                        .getBundle()
+                                        .getString("SetElementException"));
+                            }
+                        } else {
+                            textField.setText(oldVal);
+                        }
+                    });
                 }
+
+
                 textField.setMinSize(50, 50);
                 textField.setFont(Font.font(18));
                 sudokuGrid.add(textField, j, i);
@@ -88,24 +141,6 @@ public class GuiBoardController {
             }
         }
         return isValid;
-    }
-
-    public void pressedCheckButton() throws SetValueException {
-        if (!isBoardValid()) {
-            PopOutWindow popOutWindow = new PopOutWindow();
-            popOutWindow.messageBox("", bundle.getString("Board_Invalid"),
-                    Alert.AlertType.INFORMATION);
-            return;
-        }
-        updateBoard();
-        PopOutWindow popOutWindow = new PopOutWindow();
-        if (sudokuBoard.equals(originalBoard)) {
-            popOutWindow.messageBox("", bundle.getString("Board_Check_Correct"),
-                    Alert.AlertType.INFORMATION);
-        } else {
-            popOutWindow.messageBox("", bundle.getString("Board_Check_Incorrect"),
-                    Alert.AlertType.INFORMATION);
-        }
     }
 
     public void pressedSaveButton() throws SetValueException, DaoException {

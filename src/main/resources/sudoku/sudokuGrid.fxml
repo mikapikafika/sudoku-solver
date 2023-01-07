@@ -10,11 +10,10 @@
     <GridPane fx:id="sudokuGrid" prefHeight="600.0" prefWidth="600.0"/>
 
     <Button layoutX="14.0" layoutY="546.0" onAction="#pressedBackButton" prefHeight="40.0" prefWidth="100.0" text="%Button_Back"/>
-    <Button layoutX="486.0" layoutY="546.0" onAction="#pressedSaveButton" prefHeight="40.0" prefWidth="100.0" text="%Button_Save"/>
-    <Button layoutX="200.0" layoutY="500.0" onAction="#pressedCheckButton" prefHeight="86.0" prefWidth="200.0" text="%Button_Check">
+    <Button layoutX="436.0" layoutY="546.0" onAction="#pressedSaveButton" prefHeight="40.0" prefWidth="150.0" text="%Button_Save"/>
+    <Label fx:id="label" layoutX="100.0" layoutY="420.0" prefHeight="200.0" prefWidth="400.0" alignment="CENTER">
         <font>
             <Font size="25" />
         </font>
-    </Button>
-
+    </Label>
 </Pane>
