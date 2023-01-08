@@ -53,9 +53,9 @@ public class JdbcSudokuBoardDaoTest implements AutoCloseable{
 
     @Test
     public void writeReadObjectTest() throws Exception {
-        try (Dao<SudokuBoard> jdbcBoardDao = FileSudokuBoardFactory.getJdbcSudokuBoardDao("Sudoku")) {
+        try (Dao<SudokuBoard> jdbcBoardDao = FileSudokuBoardFactory.getJdbcSudokuBoardDao("Sudoku3")) {
+            FileSudokuBoardFactory.getJdbcDao().delete("Sudoku3");
             sudokuBoard.solveGame();
-
             jdbcBoardDao.write(sudokuBoard);
             SudokuBoard jdbcSudokuBoard = jdbcBoardDao.read();
             Assertions.assertEquals(sudokuBoard, jdbcSudokuBoard);
